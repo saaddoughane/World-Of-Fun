@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameHub | Landing</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar__left">
+      <div class="appmark" aria-hidden="true"></div>
+      <span class="appname">GameHub</span>
+    </div>
+
+    <nav class="topbar__nav" aria-label="Navigation principale">
+      <a class="navlink" href="./index.html" aria-current="page">Accueil</a>
+      <a class="navlink" href="./highscores.html">Highscores</a>
+      <a class="navlink navlink--cta" href="./login.html">Se connecter</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <h1 class="hero__title">Joue. Bats ton record. Monte au classement.</h1>
+      <p class="hero__desc">
+        Bienvenue sur GameHub : une application web de mini-jeux.
+        Choisis un jeu, lance une partie, et compare tes scores.
+      </p>
+
+      <div class="hero__actions">
+        <button id="btnAccessGames" class="btn btn--primary" type="button">
+          Accéder aux jeux
+        </button>
+        <a class="btn btn--ghost" href="./highscores.html">Voir les highscores</a>
+      </div>
+    </section>
+
+    <section class="games" id="gamesSection" aria-label="Jeux disponibles">
+      <h2 class="sectionTitle">Jeux</h2>
+
+      <div class="coverflow" id="coverflow" aria-label="Sélection des jeux">
+        <button class="covercard" type="button" data-index="0" data-game="game1">
+          <div class="covercard__media covercard__media--one" aria-hidden="true"></div>
+          <div class="covercard__title">Jeu 1</div>
+        </button>
+
+        <button class="covercard" type="button" data-index="1" data-game="game2">
+          <div class="covercard__media covercard__media--two" aria-hidden="true"></div>
+          <div class="covercard__title">Jeu 2</div>
+        </button>
+
+        <button class="covercard" type="button" data-index="2" data-game="game3">
+          <div class="covercard__media covercard__media--three" aria-hidden="true"></div>
+          <div class="covercard__title">Jeu 3</div>
+        </button>
+      </div>
+
+      <p class="hint">
+        💡 Navigation : <b>clic</b> sur une carte, ou <b>touchpad</b> (scroll horizontal),
+        ou <b>Shift + molette</b> (souris).
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> 2026 GameHub — MIAGE Web</p>
+  </footer>
+
+  <script src="./js/main.js" defer></script>
+</body>
+</html>
