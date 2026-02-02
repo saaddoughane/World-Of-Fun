@@ -2,65 +2,103 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mémoire arctique</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="memoire.css">
 
 </head>
 <body>
     
-    <header class="header-jeu">
-        <div class="container">
-            <div class="header-content">
-                <h1 class="titre-jeu">Mémoire arctique</h1>
-                <a href="../../index.html" class="bouton-retour">← Retour</a>
+
+    <main class="jeu-container">
+        
+
+        <div class="titre-zone">
+            <h1 class="titre-principal">
+                <span class="titre-mot">Mémoire</span>
+                <span class="titre-mot arctique">Arctique</span>
+            </h1>
+
+            <a href="../../index.html" class="bouton-retour">Retour</a>
+        </div>
+
+
+        <div class="selection-niveau" id="selectionNiveau">
+
+            <div class="niveau-card" data-niveau="1">
+                <div class="niveau-numero">1</div>
+                <div class="niveau-nom">Facile</div>
+                <div class="niveau-detail">8 cartes</div>
+
+            </div>
+
+            <div class="niveau-card" data-niveau="2">
+                <div class="niveau-numero">2</div>
+                <div class="niveau-nom">Moyen</div>
+                <div class="niveau-detail">12 cartes</div>
+
+            </div>
+
+            <div class="niveau-card" data-niveau="3">
+                <div class="niveau-numero">3</div>
+                <div class="niveau-nom">Difficile</div>
+                <div class="niveau-detail">20 cartes</div>
+
             </div>
         </div>
-    </header>
 
-    <main class="zone-jeu">
-        <div class="container">
+
+        <div class="zone-jeu" id="zoneJeu" style="display: none;">
             
-            <div class="infos-jeu">
-                <div class="info">
-                    <span class="label">Coups :</span>
-                    <span class="valeur" id="coups">0</span>
+            <div class="stats-bar">
+
+                <div class="stat-item">
+                    <span class="stat-label">Niveau</span>
+                    <span class="stat-valeur" id="niveauActuel">1</span>
                 </div>
-                <div class="info">
-                    <span class="label">Temps :</span>
-                    <span class="valeur" id="temps">00:00</span>
+
+                <div class="stat-item">
+                    <span class="stat-label">Coups</span>
+                    <span class="stat-valeur" id="coups">0</span>
                 </div>
-                <div class="info">
-                    <button class="bouton-recommencer" id="btnRecommencer">🔄 Recommencer</button>
+
+                <div class="stat-item">
+                    <span class="stat-label">Temps</span>
+                    <span class="stat-valeur" id="temps">00:00</span>
                 </div>
+
+                <button class="bouton-recommencer" id="btnRecommencer">Recommencer</button>
+                <button class="bouton-changer-niveau" id="btnChangerNiveau">Changer niveau</button>
             </div>
 
-            <!-- Grille de cartes (générée dynamiquement par JS) -->
-            <div class="grille-cartes" id="grilleCartes">
-                <!-- Les 16 cartes seront créées ici par JavaScript -->
-            </div>
-
-            <!-- Modal de victoire (caché par défaut) -->
-            <div class="modal" id="modalVictoire">
-                <div class="modal-contenu">
-                    <h2>🎉 Bravo !</h2>
-                    <p>Vous avez terminé en <span id="coupsFinaux">0</span> coups</p>
-                    <p>Temps : <span id="tempsFinaux">00:00</span></p>
-                    <div class="modal-actions">
-                        <button class="bouton-modal" id="btnRejouer">Rejouer</button>
-                        <a href="../../index.html" class="bouton-modal">Retour aux jeux</a>
-                    </div>
-                </div>
-            </div>
-
+            <div class="grille-cartes" id="grilleCartes"></div>
         </div>
+
     </main>
 
+
+    <div class="modal" id="modalVictoire">
+        
+        <div class="modal-contenu">
+
+            <h2>Niveau réussi !</h2>
+
+            <p>Coups : <span id="coupsFinaux">0</span></p>
+            <p>Temps : <span id="tempsFinaux">00:00</span></p>
+
+            <div class="modal-actions">
+                <button class="bouton-modal" id="btnNiveauSuivant">Niveau suivant</button>
+                <button class="bouton-modal" id="btnRejouer">Rejouer</button>
+                <button class="bouton-modal" id="btnMenuNiveaux">Menu niveaux</button>
+            </div>
+
+        </div>
+    </div>
 
     <footer class="footer-credits">
         <p>
@@ -74,6 +112,8 @@
         </p>
     </footer>
 
+
+    <div id="neige-container"></div> 
 
     <script src="./memoire.js"></script>
 </body>
