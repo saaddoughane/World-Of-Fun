@@ -53,7 +53,7 @@ function creerGrille() {
         carte.innerHTML = `
             <div class="face face-avant">❄️</div>
             <div class="face face-arriere">
-                <img src="images/${nomImage}" alt="Élément arctique">
+                <img src="./images/${nomImage}" alt="image arctique">
             </div>
         `;
 
