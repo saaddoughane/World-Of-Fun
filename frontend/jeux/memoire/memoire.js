@@ -1,6 +1,6 @@
 const images = [
 
-    'ours-polaire.png',
+    '/ours-polaire.png',
     'igloo.png',
     'pingouin.png',
     'renne.png',
