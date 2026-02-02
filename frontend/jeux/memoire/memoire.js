@@ -1,5 +1,4 @@
 const NIVEAUX= {
-
     1:{ paires: 4, images: ['ours-polaire.png', 'igloo.png', 'pingouin.png', 'renne.png'] },
     2:{ paires: 6, images: ['ours-polaire.png', 'igloo.png', 'pingouin.png', 'renne.png', 'baleine.png', 'poisson.png'] },
 
