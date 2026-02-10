@@ -6,7 +6,7 @@ Notes:
 Accueil:
 Rajouter un son
 
-Faire un oage Mon Compte
+Faire un page Mon Compte
 
 Jeu memoire:
 Rajouter le personnage

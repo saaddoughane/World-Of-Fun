@@ -155,12 +155,12 @@ function victoire() {
         coups: coups,
         temps: temps,
         date: new Date().toISOString(),
-        utilisateur: sessionStorage.getItem('userEmail') || 'Invité'
+        utilisateur: (JSON.parse(sessionStorage.getItem('gw_currentUser') || "null")?.email) || 'Invité'
     };
     
-    let scores = JSON.parse(sessionStorage.getItem('scores')) || [];
+    let scores = JSON.parse(localStorage.getItem('gw_scores_memory')) || [];
     scores.push(score);
-    sessionStorage.setItem('scores', JSON.stringify(scores));
+    localStorage.setItem('gw_scores_memory', JSON.stringify(scores));
     
     coupsFinaux.textContent = coups;
     const minutes = Math.floor(temps / 60).toString().padStart(2, '0');

@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GameWorld — Highscores</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <title>GameWorld — Podium</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/dashboard.css">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -17,59 +18,70 @@
     </a>
 
     <nav class="nav-links" aria-label="Navigation principale">
-      <a href="index.html">Home</a>
-      <a href="dashboard.html">Highscores</a>
+      <a href="index.html">Accueil</a>
+      <a href="dashboard.html">Podium</a>
     </nav>
 
     <div class="nav-cta">
-      <a class="btn ghost" data-account-link href="auth.html">Login</a>
-      <a class="btn" data-logout-btn href="#" style="display:none;">Logout</a>
+      <a class="btn ghost" data-account-link href="auth.html">Connexion</a>
+      <a class="btn" data-logout-btn href="#" style="display:none;">Déconnexion</a>
     </div>
   </div>
 </header>
 
-<main class="container page">
-  <h1>Highscores Dashboard</h1>
+<br/>
 
-  <div class="notice" data-auth-guard>
-    Tu dois être connecté pour voir le dashboard. Redirection vers la page d’auth…
-  </div>
+<main class="container page dashboard-page">
+  <div class="dash-shell">
+    <h1 class="dash-title">Podium</h1>
 
-  <section class="card" style="margin-top:14px;">
-    <h2 style="margin-top:0;">Top 10 — Memory (Alaska)</h2>
-    <table class="table">
-      <thead><tr><th>#</th><th>Player</th><th>Score</th></tr></thead>
-      <tbody id="t-memory"></tbody>
-    </table>
-  </section>
-
-  <section class="card" style="margin-top:14px;">
-    <h2 style="margin-top:0;">Top 10 — Typing (Amazonie)</h2>
-    <table class="table">
-      <thead><tr><th>#</th><th>Player</th><th>Score</th></tr></thead>
-      <tbody id="t-typing"></tbody>
-    </table>
-  </section>
-
-  <section class="card" style="margin-top:14px;">
-    <h2 style="margin-top:0;">Top 10 — GeoGuesser (Sahara)</h2>
-    <table class="table">
-      <thead><tr><th>#</th><th>Player</th><th>Score</th></tr></thead>
-      <tbody id="t-geo"></tbody>
-    </table>
-  </section>
-
-  <section class="card" style="margin-top:14px;">
-    <h2 style="margin-top:0;">Global — Score cumulé</h2>
-    <table class="table">
-      <thead><tr><th>#</th><th>Player</th><th>Total</th></tr></thead>
-      <tbody id="t-global"></tbody>
-    </table>
-
-    <div class="notice" style="margin-top:12px;">
-      Les scores seront branchés après (structure prête).
+    <div class="notice" data-auth-guard>
+      Tu dois être connecté pour voir le podium. Redirection vers la page d’auth…
     </div>
-  </section>
+
+    <div class="dash-grid">
+      <section class="card dash-card">
+        <h2 class="dash-h2">Top 10 — Mémoire Arctique</h2>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>#</th><th>Joueur</th><th>Score</th></tr></thead>
+            <tbody id="t-memory"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card dash-card">
+        <h2 class="dash-h2">Top 10 — Chasse Amazonienne</h2>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>#</th><th>Joueur</th><th>Score</th></tr></thead>
+            <tbody id="t-typing"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card dash-card dash-wide">
+        <h2 class="dash-h2">Top 10 — Serpent (Sahara)</h2>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>#</th><th>Joueur</th><th>Score</th></tr></thead>
+            <tbody id="t-geo"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card dash-card dash-wide">
+        <h2 class="dash-h2">Global — Score cumulé</h2>
+        <div class="table-wrap">
+          <table class="table">
+            <thead><tr><th>#</th><th>Joueur</th><th>Total</th></tr></thead>
+            <tbody id="t-global"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+  <br/>
 </main>
 
 <script src="js/main.js"></script>

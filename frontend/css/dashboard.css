@@ -1,0 +1,89 @@
+/* ================= DASHBOARD / PODIUM ================= */
+
+.dashboard-page{
+  color:#fff;
+}
+
+.dash-shell{
+  border-radius: 28px;
+  padding: 20px;
+  background: rgba(255,255,255,.10);
+  border: 1px solid rgba(255,255,255,.18);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 22px 60px rgba(0,0,0,.28);
+}
+
+.dash-title{
+  text-align:center;
+  margin: 0 0 12px;
+  letter-spacing: 1.2px;
+  font-size: clamp(34px, 4vw, 54px);
+}
+
+.dash-grid{
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 900px){
+  .dash-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+  .dash-wide{
+    grid-column: 1 / -1;
+  }
+}
+
+.dash-card{
+  padding: 16px 16px 12px;
+}
+
+.dash-h2{
+  margin: 0 0 10px;
+  text-align:center;
+  letter-spacing: .9px;
+  font-size: 26px;
+}
+
+/* tables */
+.table-wrap{
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 16px;
+}
+
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 360px;
+  background: rgba(10,18,26,.25);
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.table th, .table td{
+  padding: 10px 12px;
+  text-align: left;
+  color: rgba(255,255,255,.92);
+}
+
+.table thead th{
+  background: #ffb12047;
+  border-bottom: 1px solid #ffb020;
+  letter-spacing: .6px;
+}
+
+.table tbody tr{
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+.table tbody tr:last-child{
+  border-bottom: none;
+}
+
+.table tbody tr:hover{
+  background: rgba(255,255,255,.06);
+}
