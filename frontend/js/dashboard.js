@@ -103,7 +103,7 @@
   }
 
   // ---- Render helpers ----
-  function renderTop10FromMap(tbodyId, bestMap, labelForScore = "Score") {
+  function renderTop10FromMap(tbodyId, bestMap) {
     const tb = document.getElementById(tbodyId);
     if (!tb) return;
 

@@ -1,5 +1,4 @@
 const SESSION_KEY = "gw_currentUser";
-const USERS_KEY = "gw_users";
 
 function basePath() {
   return window.location.pathname.includes("/jeux/") ? "../../" : "";

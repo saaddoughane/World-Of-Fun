@@ -155,24 +155,6 @@
     return { score: bestScore ?? 0, date: bestDate };
   }
 
-
-    function topNBestForEmail(entries, email, scorerFn, n) {
-    const mine = entries
-      .filter(e => normalizeEmail(e) === email)
-      .map(e => ({ score: scorerFn(e), date: e.date }))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, n);
-
-    const sum = mine.reduce((acc, x) => acc + (Number(x.score) || 0), 0);
-    const mostRecent = mine.reduce((bestIso, x) => {
-      if (!x.date) return bestIso;
-      if (!bestIso) return x.date;
-      return dateMs(x.date) > dateMs(bestIso) ? x.date : bestIso;
-    }, "");
-
-    return { sum, mostRecent };
-  }
-
   // ------- Render: My scores -------
   const email = user.email;
   const accEmail = document.getElementById("accEmail");
