@@ -6,13 +6,11 @@ Notes:
 Accueil:
 Rajouter un son
 
-Faire un page Mon Compte
-
 Jeu memoire:
 Rajouter le personnage
 Rajouter un son background
 Rajouter un son quand on retourne une carte
 Rajouter un son quand on gagne
+Rajouter background image
 
-Podium:
-Tout
+Renommer les fichiers en francais (contenus et noms)
