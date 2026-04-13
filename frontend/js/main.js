@@ -151,6 +151,27 @@ window.addEventListener('scroll', () => {
   }
 })();
 
+// ===== SAVE SCORE GLOBAL =====
+const SCORES_KEY = "gw_scores";
+
+function saveScore(game, score) {
+  const session = JSON.parse(localStorage.getItem("gw_session"));
+  if (!session) return;
+
+  const scores = JSON.parse(localStorage.getItem(SCORES_KEY)) || [];
+
+  scores.push({
+    user: session.email,
+    game: game,
+    score: score,
+    date: new Date().toISOString()
+  });
+
+  localStorage.setItem(SCORES_KEY, JSON.stringify(scores));
+
+  console.log("Score sauvegardé :", game, score);
+}
+
 setNav();
 attachLogout();
 initPins();

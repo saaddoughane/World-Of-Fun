@@ -11,6 +11,14 @@ let particles = [];
 let level, score, lives, bananasClicked, bananasMissed;
 let panierImg;
 
+const SESSION_KEY = "gw_session";
+
+const session = JSON.parse(localStorage.getItem(SESSION_KEY));
+
+if (!session) {
+  window.location.href = "../../auth.html";
+}
+
 /* gestion des différents niveaux du jeu demandés 1,2 et 3*/
 const LEVEL_CONFIG ={
     1: { bananasToWin: 15, spawnInterval: 1500, maxBananas: 5, speedMultiplier: 1.0 },
@@ -195,6 +203,7 @@ function updateGame(time) {
                 
                 if (lives <= 0) {
                     saveHiScore(score);
+                    saveScore("banana", score);
                     gameState = "GAME_OVER";
                     hidePanier();
                 }
@@ -238,6 +247,7 @@ function updateLevelComplete() {
         
         else {
             saveHiScore(score);
+            saveScore("banana", score)
             gameState= "VICTORY";
         }
     }
