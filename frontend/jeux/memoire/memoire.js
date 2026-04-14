@@ -7,6 +7,19 @@ const NIVEAUX = [
     { id: 3, nbPaires: 10, cols: 5, classe: 'niveau-3' }
 ];
 
+
+const sons = {
+    flip:     new Audio('./sounds/flip.wav'),
+    paire:    new Audio('./sounds/paire.wav'),
+    erreur:   new Audio('./sounds/erreur.wav'),
+    victoire: new Audio('./sounds/victoire.ogg')
+};
+
+sons.flip.volume= 0.5;
+sons.paire.volume= 0.7;
+sons.erreur.volume= 0.4;
+sons.victoire.volume = 0.6;
+
 const IMAGES_CARTES = [
 
     './images/ours-polaire.png',
@@ -138,9 +151,12 @@ function clicCarte(carte) {
     if (cartesRetournees.length >= 2) return;
 
     carte.classList.add('retournee');
+    sons.flip.currentTime = 0;
+    sons.flip.play();
     cartesRetournees.push(carte);
 
     if (cartesRetournees.length === 2) {
+        
         coups++;
         elCoups.textContent = coups;
         peutCliquer = false;
@@ -148,33 +164,40 @@ function clicCarte(carte) {
         const [c1, c2] = cartesRetournees;
 
         if (c1.dataset.src === c2.dataset.src) {
-            // Paire trouvée
             
             setTimeout(() => {
 
+
                 c1.classList.add('trouvee');
                 c2.classList.add('trouvee');
+                sons.paire.currentTime = 0;
+                sons.paire.play();
                 cartesTrouvees += 2;
                 cartesRetournees = [];
                 peutCliquer = true;
 
                 const totalCartes = NIVEAUX[niveauIndex].nbPaires * 2;
-                
+               
+               
                 if (cartesTrouvees === totalCartes) {
                     clearInterval(timerInterval);
                     setTimeout(() => afficherVictoire(), 500);
                 }
+
             }, 400);
         } 
         
         else {
-
-            // Pas une paire
             setTimeout(() => {
+
+
+                sons.erreur.currentTime = 0;
+                sons.erreur.play();
                 c1.classList.remove('retournee');
                 c2.classList.remove('retournee');
                 cartesRetournees = [];
-                peutCliquer      = true;
+                peutCliquer = true;
+
             }, 1000);
         }
     }
@@ -189,9 +212,10 @@ document.getElementById('btnMenuModal').addEventListener('click', () => {
 
 function afficherVictoire() {
 
-    const niv = NIVEAUX[niveauIndex];
-    document.querySelector('#modalVictoire h2').textContent = `Niveau ${niv.id} réussi ! 🎉`;
+    sons.victoire.currentTime = 0;
+    sons.victoire.play();
 
+    document.querySelector('#modalVictoire h2').textContent = `Niveau ${NIVEAUX[niveauIndex].id} réussi ! 🎉`;
     elCoupsFinaux.textContent = coups;
     elTempsFinaux.textContent = formaterTemps(secondes);
 
@@ -200,7 +224,10 @@ function afficherVictoire() {
     if (niveauIndex < NIVEAUX.length - 1) {
         btnSuivant.textContent = `Niveau ${NIVEAUX[niveauIndex].id + 1} →`;
         btnSuivant.style.display = 'block';
-    } else {
+    } 
+    
+    else {
+        
         btnSuivant.style.display = 'none';
     }
 
