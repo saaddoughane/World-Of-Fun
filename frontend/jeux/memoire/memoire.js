@@ -19,7 +19,7 @@ const IMAGES_CARTES = [
     './images/poisson.png',
     './images/renne.png',
     './images/pingouin.png'
-    
+
 ];
 
 
@@ -182,8 +182,16 @@ function clicCarte(carte) {
 
 }
 
+document.getElementById('btnMenuModal').addEventListener('click', () => {
+    modalVictoire.classList.remove('active');
+    afficherAccueil();
+});
 
 function afficherVictoire() {
+
+    const niv = NIVEAUX[niveauIndex];
+    document.querySelector('#modalVictoire h2').textContent = `Niveau ${niv.id} réussi ! 🎉`;
+
     elCoupsFinaux.textContent = coups;
     elTempsFinaux.textContent = formaterTemps(secondes);
 
