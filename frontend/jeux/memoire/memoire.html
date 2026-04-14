@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Boogaloo&family=Bruno+Ace&family=Just+Another+Hand&family=McLaren&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Yusei+Magic&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="memoire.css">
 
@@ -16,46 +16,38 @@
     
 
     <main class="jeu-container">
+ 
         
-
         <div class="titre-zone">
-            <h1 class="titre-principal">
+            
+            <h1 class="titre-principal" id="titrePrincipal">
                 <span class="titre-mot">Mémoire</span>
                 <span class="titre-mot arctique">Arctique</span>
             </h1>
-
+           
             <a href="../../index.html" class="bouton-retour">Retour</a>
         </div>
+ 
 
-
-        <div class="selection-niveau" id="selectionNiveau">
-
-            <div class="niveau-card" data-niveau="1">
-                <div class="niveau-numero">1</div>
-                <div class="niveau-nom">Facile</div>
-                <div class="niveau-detail">8 cartes</div>
-
+        <div class="page-accueil" id="pageAccueil">
+            <div class="pingouin-container">
+                <img src="./images/pingouin.png" alt="Pingouin mascotte">
             </div>
 
-            <div class="niveau-card" data-niveau="2">
-                <div class="niveau-numero">2</div>
-                <div class="niveau-nom">Moyen</div>
-                <div class="niveau-detail">12 cartes</div>
-
+            <div class="panel-accueil">
+                <p class="texte-accroche">Retrouve les paires d'animaux arctiques !</p>
+                <img src="./images/memory.png" alt="Memory" class="img-memory">
+                <button class="bouton-jouer" id="btnJouer">Jouer</button>
+                <p class="hint-clavier">ESPACE · Jouer &nbsp;·&nbsp; ESC · Menu</p>
             </div>
 
-            <div class="niveau-card" data-niveau="3">
-                <div class="niveau-numero">3</div>
-                <div class="niveau-nom">Difficile</div>
-                <div class="niveau-detail">20 cartes</div>
-
-            </div>
         </div>
+ 
 
+        <div class="page-jeu" id="pageJeu" style="display:none;">
+ 
 
-        <div class="zone-jeu" id="zoneJeu" style="display: none;">
-            
-            <div class="stats-bar">
+            <div class="barre-stats">
 
                 <div class="stat-item">
                     <span class="stat-label">Niveau</span>
@@ -72,50 +64,60 @@
                     <span class="stat-valeur" id="temps">00:00</span>
                 </div>
 
-                <button class="bouton-recommencer" id="btnRecommencer">Recommencer</button>
-                <button class="bouton-changer-niveau" id="btnChangerNiveau">Changer niveau</button>
+                <div class="barre-boutons">
+                    <button class="bouton-barre" id="btnRecommencer">Recommencer</button>
+                    <button class="bouton-barre doré" id="btnMenu">Menu</button>
+                </div>
+
             </div>
+ 
 
             <div class="grille-cartes" id="grilleCartes"></div>
+ 
         </div>
-
-    </main>
-
-
-    <div class="modal" id="modalVictoire">
-        
-        <div class="modal-contenu">
-
-            <h2>Niveau réussi !</h2>
-
-            <p>Coups : <span id="coupsFinaux">0</span></p>
-            <p>Temps : <span id="tempsFinaux">00:00</span></p>
-
-            <div class="modal-actions">
-                <button class="bouton-modal" id="btnNiveauSuivant">Niveau suivant</button>
-                <button class="bouton-modal" id="btnRejouer">Rejouer</button>
-                <button class="bouton-modal" id="btnMenuNiveaux">Menu niveaux</button>
+ 
+       
+        <div class="modal" id="modalVictoire">
+           
+            <div class="modal-contenu">
+                <h2>Niveau réussi ! 🎉</h2>
+                <p>Coups : <span id="coupsFinaux">0</span> &nbsp;·&nbsp; Temps : <span id="tempsFinaux">00:00</span></p>
+                <div class="modal-actions">
+                    <button class="bouton-modal" id="btnSuivant">Niveau suivant →</button>
+                    <button class="bouton-modal secondaire" id="btnRejouer">Rejouer ce niveau</button>
+                </div>
             </div>
 
         </div>
-    </div>
+ 
 
+        <div class="modal" id="modalFin">
+            
+            <div class="modal-contenu">
+                <h2>Bravo ! 🏆</h2>
+                <p>Tu as terminé tous les niveaux !</p>
+                <div class="modal-actions">
+                    <button class="bouton-modal" id="btnDebut">Rejouer depuis le début</button>
+                </div>
+            </div>
+
+        </div>
+ 
+    </main>
+ 
     <footer class="footer-credits">
         <p>
-            Icônes : 
-            <a href="https://www.flaticon.com/free-icons/polar-bear" target="_blank">paulalee</a>, 
-            <a href="https://www.flaticon.com/authors/freepik" target="_blank">Freepik</a>, 
-            <a href="https://www.flaticon.com/free-icons/penguin" target="_blank">Mihimihi</a>, 
-            <a href="https://www.flaticon.com/free-icons/whale" target="_blank">BZZRINCANTATION</a>, 
+            Icônes :
+            <a href="https://www.flaticon.com/free-icons/polar-bear" target="_blank">paulalee</a>,
+            <a href="https://www.flaticon.com/authors/freepik" target="_blank">Freepik</a>,
+            <a href="https://www.flaticon.com/free-icons/penguin" target="_blank">Mihimihi</a>,
+            <a href="https://www.flaticon.com/free-icons/whale" target="_blank">BZZRINCANTATION</a>,
             <a href="https://www.flaticon.com/free-icons/cold-fish" target="_blank">Prashu Rapol</a>
             - Flaticon
         </p>
     </footer>
-
-
-    <div id="neige-container"></div> 
-
-    <script src="../../js/main.js"></script>
+ 
+    <div id="neige-container"></div>
     <script src="./memoire.js"></script>
 </body>
 </html>
