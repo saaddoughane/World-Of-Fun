@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Charming Dunes</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./snake.css" />
+</head>
+<body>
+  <main class="jeu-container">
+    <div class="titre-zone">
+      <h1 class="titre-principal">
+        <span class="titre-mot">Charming</span>
+        <span class="titre-mot dunes">Dunes</span>
+      </h1>
+
+      <button id="btnRetour" class="bouton-retour" type="button">Retour</button>
+    </div>
+
+    <div class="zone-canvas">
+      <canvas id="canvas" width="960" height="600"></canvas>
+
+      <div class="joystick" id="joystick">
+        <div class="joystick-base">
+          <div class="joystick-knob" id="joystickKnob"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-panel">
+      <div class="info-item">
+        <div class="info-emoji">🪲</div>
+        <span>Scarabée<strong>+1 score</strong></span>
+      </div>
+
+      <div class="info-item">
+        <div class="info-emoji">🌵</div>
+        <span>Cactus<strong>-1 vie</strong></span>
+      </div>
+
+      <div class="info-item">
+        <div class="info-emoji">🏝️</div>
+        <span>Oasis<strong>+1 vie</strong></span>
+      </div>
+
+      <div class="info-item">
+        <div class="info-emoji">✨</div>
+        <span>Relique<strong>Invincible 3s</strong></span>
+      </div>
+    </div>
+
+    <p class="controls">
+      <strong>Souris</strong> Diriger ·
+      <strong>Flèches / WASD</strong> Diriger ·
+      <strong>Espace</strong> Démarrer / Continuer ·
+      <strong>ESC</strong> Scores
+    </p>
+  </main>
+
+  <footer class="footer-credits">
+    <p>Charming Dunes — Snake Sahara / Cobra & Scarabées</p>
+  </footer>
+
+  <script src="../../js/main.js"></script>
+  <script src="./snake.js"></script>
+</body>
+</html>
