@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Fredoka', 'Montserrat', sans-serif;
+  font-family: 'Changa', sans-serif;
   min-height: 100vh;
   color: #5b341a;
   position: relative;
@@ -105,7 +105,6 @@ body::before {
   touch-action: none;
 }
 
-/* Joystick mobile */
 .joystick {
   position: absolute;
   left: 18px;

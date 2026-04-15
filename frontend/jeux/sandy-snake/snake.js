@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const ASSET_PATHS = {
     desert: "./assets/desert-bg.jpg",
     cobraHead: "./assets/cobra-head.png",
+    body: "./assets/body.png",
+    tail: "./assets/tail.png",
     scarab: "./assets/scarabee.png",
     cactus: "./assets/cactus.png",
     oasis: "./assets/oasis.png",
@@ -41,6 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const assets = {
     desert: new Image(),
     cobraHead: new Image(),
+    body: new Image(),
+    tail: new Image(),
     scarab: new Image(),
     cactus: new Image(),
     oasis: new Image(),
@@ -383,30 +387,32 @@ document.addEventListener("DOMContentLoaded", () => {
   function spawnLevelObjects() {
     const cfg = LEVELS[level];
 
+    if (!cfg) return;
+
     if (level === 1) return;
 
     if (level >= 2) {
         if (cacti.length < cfg.cactusMax && currentTime - lastCactusSpawn > cfg.cactusSpawnMs) {
-        cacti.push(spawnCactus());
-        lastCactusSpawn = currentTime;
+            cacti.push(spawnCactus());
+            lastCactusSpawn = currentTime;
         }
 
         if (!relic && currentTime - lastRelicSpawn > cfg.relicSpawnMs) {
-        relic = spawnRelic();
-        lastRelicSpawn = currentTime;
+            relic = spawnRelic();
+            lastRelicSpawn = currentTime;
         }
     }
 
     if (level >= 3) {
         if (!oasis && currentTime - lastOasisSpawn > cfg.oasisSpawnMs) {
-        oasis = spawnOasis();
-        lastOasisSpawn = currentTime;
+            oasis = spawnOasis();
+            lastOasisSpawn = currentTime;
         }
     }
 
     if (oasis && currentTime > oasis.expiresAt) oasis = null;
     if (relic && currentTime > relic.expiresAt) relic = null;
-    }
+  }
 
   function updatePlaying() {
     updateSnake();
@@ -462,71 +468,71 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ctx.textAlign = "center";
     ctx.fillStyle = "#6a3d1f";
-    ctx.font = "bold 42px Fredoka, Montserrat";
+    ctx.font = "bold 42px Changa";
     ctx.fillText("GUIDE LE COBRA DANS LE SAHARA", canvas.width / 2, 80);
 
     ctx.fillStyle = "#fff7e4";
-    ctx.font = "600 24px Fredoka, Montserrat";
+    ctx.font = "600 24px Changa";
     ctx.fillText("Mange les scarabées, évite les cactus, survie aux 3 niveaux.", canvas.width / 2, 125);
 
     drawBigCobraPreview();
 
     drawPlayButton(canvas.width / 2 - 120, 430, 240, 62, "Jouer");
     ctx.fillStyle = "rgba(255,255,255,0.92)";
-    ctx.font = "500 17px Fredoka, Montserrat";
+    ctx.font = "500 17px Changa";
     ctx.fillText("ESPACE / clic pour commencer • ESC pour les scores", canvas.width / 2, 530);
 
     ctx.restore();
   }
 
   function drawBigCobraPreview() {
-    const cx = canvas.width / 2;
+    const cx = canvas.width/1.45;
     const cy = 265;
 
-    ctx.save();
-    ctx.lineCap = "round";
+    const spacing =35;
+    const radius = 50;
+    const segments = 12;
 
-    for (let i = 0; i < 10; i++) {
-      const x = cx - i * 28;
-      const y = cy + Math.sin(i * 0.6) * 22;
-      ctx.beginPath();
-      ctx.fillStyle = i % 2 === 0 ? "#3f6b2a" : "#567f36";
-      ctx.arc(x, y, 18 - i * 0.7, 0, Math.PI * 2);
-      ctx.fill();
+    for (let i = segments; i >= 1; i--) {
+      const x = cx - i * spacing;
+      const y = cy + Math.sin(i * 0.5) * 30;
+
+      const size = radius * 2;
+
+      ctx.save();
+      ctx.translate(x, y);
+
+      const nextX = cx - (i - 1) * spacing;
+      const nextY = cy + Math.sin((i - 1) * 0.5) * 18;
+      const angle = Math.atan2(nextY - y, nextX - x);
+      ctx.rotate(angle - 0.9);
+
+      if (i === segments) {
+        if (assets.tail.complete) {
+          ctx.drawImage(assets.tail, -size/1.45, -size/2, size, size);
+        }
+      } else {
+        if (assets.body.complete) {
+          ctx.drawImage(assets.body, -size/2, -size/2, size, size);
+        }
+      }
+
+      ctx.restore();
     }
 
-    ctx.beginPath();
-    ctx.fillStyle = "#325a21";
-    ctx.ellipse(cx + 28, cy, 28, 20, 0, 0, Math.PI * 2);
-    ctx.fill();
+    ctx.save();
+    ctx.translate(cx, cy);
 
-    ctx.beginPath();
-    ctx.fillStyle = "#f2d27b";
-    ctx.ellipse(cx + 34, cy + 4, 16, 8, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "#fff";
-    ctx.beginPath();
-    ctx.arc(cx + 38, cy - 5, 4, 0, Math.PI * 2);
-    ctx.arc(cx + 48, cy - 5, 4, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "#1c1c1c";
-    ctx.beginPath();
-    ctx.arc(cx + 38, cy - 5, 2, 0, Math.PI * 2);
-    ctx.arc(cx + 48, cy - 5, 2, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.strokeStyle = "#d45a3c";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(cx + 55, cy + 4);
-    ctx.lineTo(cx + 70, cy + 10);
-    ctx.moveTo(cx + 70, cy + 10);
-    ctx.lineTo(cx + 80, cy + 5);
-    ctx.moveTo(cx + 70, cy + 10);
-    ctx.lineTo(cx + 80, cy + 15);
-    ctx.stroke();
+    if (assets.cobraHead.complete) {
+      ctx.scale(-1, 1);
+      ctx.drawImage(
+        assets.cobraHead,
+        -radius,
+        -radius * 1.2,
+        radius * 2,
+        radius * 2
+      );
+    }
 
     ctx.restore();
   }
@@ -545,7 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.stroke();
 
     ctx.fillStyle = "#6a3d1f";
-    ctx.font = "bold 28px Fredoka, Montserrat";
+    ctx.font = "bold 28px Changa";
     ctx.textAlign = "center";
     ctx.fillText(text, x + w / 2, y + 40);
   }
@@ -557,7 +563,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.fillRect(0, 0, canvas.width, 54);
 
     ctx.fillStyle = "#fff3d4";
-    ctx.font = "bold 20px Fredoka, Montserrat";
+    ctx.font = "bold 20px Changa";
     ctx.textAlign = "center";
 
     const zone1 = canvas.width * 0.12;
@@ -572,7 +578,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (currentTime < snake.invincibleUntil) {
       ctx.fillStyle = "#fff19d";
-      ctx.font = "bold 18px Fredoka, Montserrat";
+      ctx.font = "bold 18px Changa";
       ctx.fillText("INVINCIBLE", canvas.width / 2, 82);
     }
 
@@ -580,89 +586,51 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function drawScarab(s) {
-    ctx.save();
-    ctx.translate(s.x, s.y);
+    if (!assets.scarab.complete) return;
 
-    ctx.fillStyle = "#2e2b4f";
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 12, 16, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.strokeStyle = "#5f58a6";
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(0, -14);
-    ctx.lineTo(0, 14);
-    ctx.moveTo(-10, -6);
-    ctx.lineTo(-18, -12);
-    ctx.moveTo(10, -6);
-    ctx.lineTo(18, -12);
-    ctx.moveTo(-10, 0);
-    ctx.lineTo(-20, 0);
-    ctx.moveTo(10, 0);
-    ctx.lineTo(20, 0);
-    ctx.moveTo(-10, 6);
-    ctx.lineTo(-18, 12);
-    ctx.moveTo(10, 6);
-    ctx.lineTo(18, 12);
-    ctx.stroke();
-
-    ctx.restore();
+    ctx.drawImage(
+      assets.scarab,
+      s.x - s.radius,
+      s.y - s.radius,
+      s.radius * 2.5,
+      s.radius * 2.5
+    );
   }
 
   function drawCactus(c) {
-    ctx.save();
-    ctx.translate(c.x, c.y);
+    if (!assets.cactus.complete) return;
 
-    ctx.fillStyle = "#3f8e3f";
-    ctx.beginPath();
-    ctx.roundRect(-8, -22, 16, 44, 8);
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.roundRect(-20, -8, 10, 24, 7);
-    ctx.roundRect(10, -16, 10, 22, 7);
-    ctx.fill();
-
-    ctx.restore();
+    ctx.drawImage(
+      assets.cactus,
+      c.x - c.radius,
+      c.y - c.radius,
+      c.radius * 2,
+      c.radius * 2
+    );
   }
 
   function drawOasis(o) {
-    ctx.save();
-    ctx.translate(o.x, o.y);
+    if (!assets.oasis.complete) return;
 
-    ctx.fillStyle = "#2fbdd5";
-    ctx.beginPath();
-    ctx.ellipse(0, 0, 20, 12, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "#4b8d34";
-    ctx.beginPath();
-    ctx.arc(-10, -10, 5, 0, Math.PI * 2);
-    ctx.arc(12, -9, 5, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.restore();
+    ctx.drawImage(
+      assets.oasis,
+      o.x - o.radius,
+      o.y - o.radius,
+      o.radius * 2,
+      o.radius * 2
+    );
   }
 
   function drawRelic(r) {
-    ctx.save();
-    ctx.translate(r.x, r.y);
+    if (!assets.relic.complete) return;
 
-    ctx.fillStyle = "#ffe680";
-    ctx.beginPath();
-    ctx.moveTo(0, -14);
-    ctx.lineTo(8, 0);
-    ctx.lineTo(0, 14);
-    ctx.lineTo(-8, 0);
-    ctx.closePath();
-    ctx.fill();
-
-    ctx.strokeStyle = "#fff7cc";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    ctx.restore();
+    ctx.drawImage(
+      assets.relic,
+      r.x - r.radius,
+      r.y - r.radius,
+      r.radius * 2,
+      r.radius * 2
+    );
   }
 
   function drawSnake() {
@@ -670,52 +638,73 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.lineCap = "round";
 
     for (let i = snake.bodyCount; i >= 1; i--) {
-      const idx = i * snake.spacing;
+      const idx = Math.floor(i * snake.spacing * 0.6);
       const part = snake.trail[idx];
       if (!part) continue;
 
-      const radius = Math.max(7, snake.headRadius - i * 0.45);
-      ctx.beginPath();
-      ctx.fillStyle = i % 2 === 0 ? "#4f7c2f" : "#648f3d";
-      ctx.arc(part.x, part.y, radius, 0, Math.PI * 2);
-      ctx.fill();
+      const size = snake.headRadius * 2;
+
+      ctx.save();
+      ctx.translate(part.x, part.y);
+
+      if (snake.trail[idx + snake.spacing]) {
+        const next = snake.trail[idx + snake.spacing];
+        const angle = Math.atan2(next.y - part.y, next.x - part.x);
+        ctx.rotate(angle);
+      }
+
+      if (i === snake.bodyCount) {
+        if (assets.tail.complete && assets.tail.naturalWidth !== 0) {
+          ctx.scale(-1, -1);
+
+          ctx.drawImage(
+            assets.tail,
+            -size/1.5,
+            -size/1.5,
+            size * 1.2,
+            size * 1.2
+          );
+
+          ctx.scale(-1, -1);
+        }
+      } else {
+        if (assets.body.complete && assets.body.naturalWidth !== 0) {
+          ctx.drawImage(
+            assets.body,
+            -size / 2,
+            -size / 2,
+            size,
+            size
+          );
+        }
+      }
+
+      ctx.restore();
     }
 
     ctx.translate(snake.x, snake.y);
     ctx.rotate(snake.angle);
 
-    ctx.beginPath();
-    ctx.fillStyle = "#375f24";
-    ctx.ellipse(0, 0, 20, 15, 0, 0, Math.PI * 2);
-    ctx.fill();
+    if (assets.cobraHead.complete && assets.cobraHead.naturalWidth !== 0) {
+      snake.headRadius = 25;
 
-    ctx.beginPath();
-    ctx.fillStyle = "#e8cd7f";
-    ctx.ellipse(4, 3, 11, 6, 0, 0, Math.PI * 2);
-    ctx.fill();
+      ctx.scale(-1, 1);
+      
+      ctx.drawImage(
+        assets.cobraHead,
+        -snake.headRadius,
+        -snake.headRadius * 1.5,
+        snake.headRadius * 2,
+        snake.headRadius * 2
+      );
 
-    ctx.fillStyle = "#fff";
-    ctx.beginPath();
-    ctx.arc(6, -4, 3.6, 0, Math.PI * 2);
-    ctx.arc(13, -4, 3.6, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.fillStyle = "#1c1c1c";
-    ctx.beginPath();
-    ctx.arc(6, -4, 1.8, 0, Math.PI * 2);
-    ctx.arc(13, -4, 1.8, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.strokeStyle = "#d45544";
-    ctx.lineWidth = 2.2;
-    ctx.beginPath();
-    ctx.moveTo(18, 3);
-    ctx.lineTo(30, 6);
-    ctx.moveTo(30, 6);
-    ctx.lineTo(37, 2);
-    ctx.moveTo(30, 6);
-    ctx.lineTo(37, 10);
-    ctx.stroke();
+      ctx.scale(-1, 1);
+    } else {
+      ctx.fillStyle = "red";
+      ctx.beginPath();
+      ctx.arc(0, 0, snake.headRadius, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     if (currentTime < snake.invincibleUntil) {
       ctx.strokeStyle = "rgba(255,245,170,0.95)";
@@ -762,16 +751,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ctx.textAlign = "center";
     ctx.fillStyle = "#ffeab8";
-    ctx.font = "bold 52px Fredoka, Montserrat";
+    ctx.font = "bold 52px Changa";
     ctx.fillText(`NIVEAU ${level} TERMINÉ`, canvas.width / 2, 225);
 
     ctx.fillStyle = "#ffffff";
-    ctx.font = "600 30px Fredoka, Montserrat";
+    ctx.font = "600 30px Changa";
     ctx.fillText(`Score : ${score}`, canvas.width / 2, 295);
     ctx.fillText(`Scarabées : ${levelScore}`, canvas.width / 2, 340);
 
     ctx.fillStyle = "#fff2c8";
-    ctx.font = "600 22px Fredoka, Montserrat";
+    ctx.font = "600 22px Changa";
     ctx.fillText("ESPACE pour continuer", canvas.width / 2, 395);
 
     ctx.restore();
@@ -786,16 +775,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ctx.textAlign = "center";
     ctx.fillStyle = "#ffb095";
-    ctx.font = "bold 62px Fredoka, Montserrat";
+    ctx.font = "bold 62px Changa";
     ctx.fillText("GAME OVER", canvas.width / 2, 210);
 
     ctx.fillStyle = "#fff";
-    ctx.font = "600 30px Fredoka, Montserrat";
+    ctx.font = "600 30px Changa";
     ctx.fillText(`Score final : ${score}`, canvas.width / 2, 285);
     ctx.fillText(`Niveau atteint : ${level}`, canvas.width / 2, 330);
 
     ctx.fillStyle = "#ffeab8";
-    ctx.font = "600 22px Fredoka, Montserrat";
+    ctx.font = "600 22px Changa";
     ctx.fillText("ESPACE pour rejouer", canvas.width / 2, 395);
     ctx.fillText("ESC pour les meilleurs scores", canvas.width / 2, 430);
     ctx.restore();
@@ -810,16 +799,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ctx.textAlign = "center";
     ctx.fillStyle = "#ffe9a1";
-    ctx.font = "bold 58px Fredoka, Montserrat";
+    ctx.font = "bold 58px Changa";
     ctx.fillText("VICTOIRE TOTALE", canvas.width / 2, 210);
 
     ctx.fillStyle = "#fff";
-    ctx.font = "600 30px Fredoka, Montserrat";
+    ctx.font = "600 30px Changa";
     ctx.fillText(`Score final : ${score}`, canvas.width / 2, 290);
     ctx.fillText("45 scarabées avalés à travers le désert", canvas.width / 2, 335);
 
     ctx.fillStyle = "#fff2c8";
-    ctx.font = "600 22px Fredoka, Montserrat";
+    ctx.font = "600 22px Changa";
     ctx.fillText("ESPACE pour revenir au menu", canvas.width / 2, 400);
 
     ctx.restore();
@@ -834,7 +823,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ctx.textAlign = "center";
     ctx.fillStyle = "#ffe9a1";
-    ctx.font = "bold 52px Fredoka, Montserrat";
+    ctx.font = "bold 52px Changa";
     ctx.fillText("MEILLEURS SCORES", canvas.width / 2, 95);
 
     const cardX = 120;
@@ -853,10 +842,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (hiScores.length === 0) {
       ctx.fillStyle = "#fff";
-      ctx.font = "600 26px Fredoka, Montserrat";
+      ctx.font = "600 26px Changa";
       ctx.fillText("Aucun score enregistré", canvas.width / 2, 305);
     } else {
-      ctx.font = "600 24px Fredoka, Montserrat";
+      ctx.font = "600 24px Changa";
       hiScores.forEach((entry, index) => {
         ctx.fillStyle = index % 2 === 0 ? "#fff" : "#ffe5a8";
         ctx.fillText(`${entry.score} pts  -  ${entry.date}`, canvas.width / 2, 205 + index * 52);
@@ -864,7 +853,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     ctx.fillStyle = "#fff4d3";
-    ctx.font = "600 20px Fredoka, Montserrat";
+    ctx.font = "600 20px Changa";
     ctx.fillText("ESPACE ou ESC pour revenir au menu", canvas.width / 2, 540);
 
     ctx.restore();
