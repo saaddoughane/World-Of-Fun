@@ -239,6 +239,15 @@ body::before {
   cursor: url("./assets/flute.png") 16 16, auto;
 }
 
+.meerkat {
+  position: absolute;
+  right: -220px;
+  bottom: 20px;
+  width: 250px;
+  pointer-events: none;
+  user-select: none;
+}
+
 @media (max-width: 900px) {
   .titre-principal {
     font-size: 2.7rem;
