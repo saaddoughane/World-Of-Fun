@@ -23,7 +23,6 @@ Le projet explore deux approches du développement web :
 
 **Rapport de Conception** : 
 
----
 
 
 ## 🎥 Vidéos de Démonstration
@@ -32,7 +31,6 @@ Le projet explore deux approches du développement web :
 - **Chasse Bananes** :  lien ytb
 - **Snake du Désert** : lien ytb 
 
----
 
 ## 🚀 Installation et Lancement
 
