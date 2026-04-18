@@ -27,6 +27,19 @@ function setNav() {
   }
 }
 
+function setGameLinks() {
+  const user = getCurrentUser();
+  const isLoggedIn = Boolean(user && user.email);
+  const gameLinks = Array.from(document.querySelectorAll("[data-game-href]"));
+
+  gameLinks.forEach((link) => {
+    const gameHref = link.getAttribute("data-game-href");
+    if (!gameHref) return;
+
+    link.setAttribute("href", isLoggedIn ? gameHref : `${basePath()}auth.html`);
+  });
+}
+
 function attachLogout() {
   const btn = document.querySelector("[data-logout-btn]");
   if (!btn) return;
@@ -106,13 +119,23 @@ window.addEventListener('scroll', () => {
 
 const SCORES_KEY = "gw_scores";
 
-function saveScore(game, score) {
-  const session = JSON.parse(localStorage.getItem("gw_session"));
-  if (!session) return;
+function safeParse(raw, fallback) {
+  try {
+    const value = JSON.parse(raw);
+    return value === null || value === undefined ? fallback : value;
+  } catch {
+    return fallback;
+  }
+}
 
-  const scores = JSON.parse(localStorage.getItem(SCORES_KEY)) || [];
+function saveScore(game, score, extra = {}) {
+  const session = safeParse(localStorage.getItem("gw_session"), null);
+  if (!session || !session.email) return;
+
+  const scores = safeParse(localStorage.getItem(SCORES_KEY), []);
 
   scores.push({
+    ...extra,
     email: session.email,
     game: game,
     score: score,
@@ -140,5 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 setNav();
+setGameLinks();
 attachLogout();
 initPins();

@@ -1,10 +1,10 @@
 (function () {
-  // Ne pas redéclarer USERS_KEY / SESSION_KEY en global.
-  // On les récupère si elles existent, sinon fallback.
   const USERS_KEY_LOCAL =
     (typeof USERS_KEY !== "undefined" && USERS_KEY) ? USERS_KEY : "gw_users";
 
   const SESSION_KEY_LOCAL = "gw_session";
+  const MONKEY_CLOSED = String.fromCodePoint(0x1F435);
+  const MONKEY_OPEN = String.fromCodePoint(0x1F648);
 
   function readUsers() {
     try { return JSON.parse(localStorage.getItem(USERS_KEY_LOCAL)) ?? []; }
@@ -17,7 +17,7 @@
 
   function setSessionUser(email) {
     localStorage.setItem(
-      "gw_session",
+      SESSION_KEY_LOCAL,
       JSON.stringify({ email, loginAt: new Date().toISOString() })
     );
   }
@@ -26,25 +26,25 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim());
   }
 
-  function isValidPassword(pwd) {
-    const n = String(pwd).length;
-    return n >= 6 && n <= 64;
+  function isValidPassword(password) {
+    const length = String(password).length;
+    return length >= 6 && length <= 64;
   }
 
-  function show(el, msg) {
-    if (!el) return;
-    el.style.display = "block";
-    el.textContent = msg;
+  function show(element, message) {
+    if (!element) return;
+    element.style.display = "block";
+    element.textContent = message;
   }
 
-  function hide(el) {
-    if (!el) return;
-    el.style.display = "none";
-    el.textContent = "";
+  function hide(element) {
+    if (!element) return;
+    element.style.display = "none";
+    element.textContent = "";
   }
 
-  function hash(pwd) {
-    return btoa(pwd);
+  function hash(password) {
+    return btoa(password);
   }
 
   const btnLogin = document.getElementById("btnLogin");
@@ -82,18 +82,21 @@
   const regOk = document.getElementById("regOk");
 
   if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      hide(loginErr); hide(loginOk);
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      hide(loginErr);
+      hide(loginOk);
 
       const email = loginForm.email.value.trim();
       const password = loginForm.password.value;
 
       if (!isValidEmail(email)) return show(loginErr, "Email invalide.");
-      if (!isValidPassword(password)) return show(loginErr, "Le mot de passe doit contenir entre 6 et 64 caractères.");
+      if (!isValidPassword(password)) {
+        return show(loginErr, "Le mot de passe doit contenir entre 6 et 64 caract\u00e8res.");
+      }
 
       const users = readUsers();
-      const user = users.find(u => u.email === email);
+      const user = users.find((entry) => entry.email === email);
 
       if (!user) {
         show(loginErr, "Compte invalide. Redirection vers l'inscription.");
@@ -114,35 +117,39 @@
   }
 
   if (registerForm) {
-    registerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      hide(regErr); hide(regOk);
+    registerForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      hide(regErr);
+      hide(regOk);
 
       const email = registerForm.email.value.trim();
-      const pwd1 = registerForm.password.value;
-      const pwd2 = registerForm.password2.value;
+      const password = registerForm.password.value;
+      const password2 = registerForm.password2.value;
 
       if (!isValidEmail(email)) return show(regErr, "Email invalide.");
-      if (!isValidPassword(pwd1)) return show(regErr, "Le mot de passe doit contenir entre 6 et 64 caractères.");
-      if (pwd1 !== pwd2) return show(regErr, "Les mots de passe doivent être identiques.");
+      if (!isValidPassword(password)) {
+        return show(regErr, "Le mot de passe doit contenir entre 6 et 64 caract\u00e8res.");
+      }
+      if (password !== password2) {
+        return show(regErr, "Les mots de passe doivent \u00eatre identiques.");
+      }
 
       const users = readUsers();
-      if (users.some(u => u.email === email)) return show(regErr, "Email déjà utilisé.");
+      if (users.some((entry) => entry.email === email)) {
+        return show(regErr, "Email d\u00e9j\u00e0 utilis\u00e9.");
+      }
 
-      users.push({ email, password: hash(pwd1), createdAt: new Date().toISOString() });
+      users.push({ email, password: hash(password), createdAt: new Date().toISOString() });
       writeUsers(users);
 
-      show(regOk, "Compte créé. Tu peux te connecter.");
-      openLogin();
-      if (loginForm) {
-        loginForm.email.value = email;
-        loginForm.password.value = "";
-      }
+      setSessionUser(email);
+      show(regOk, "Compte cr\u00e9\u00e9. Connexion...");
+      setTimeout(() => window.location.href = "index.html", 600);
     });
   }
 
-  // Toggle show/hide password (eye button) 🙈 / 🐵
   document.querySelectorAll(".pwd-toggle").forEach((btn) => {
+    btn.textContent = MONKEY_CLOSED;
     btn.addEventListener("click", () => {
       const targetId = btn.getAttribute("data-target");
       const input = targetId ? document.getElementById(targetId) : null;
@@ -150,8 +157,7 @@
 
       const isHidden = input.type === "password";
       input.type = isHidden ? "text" : "password";
-      btn.textContent = isHidden ? "🙈" : "🐵";
+      btn.textContent = isHidden ? MONKEY_OPEN : MONKEY_CLOSED;
     });
   });
-
 })();

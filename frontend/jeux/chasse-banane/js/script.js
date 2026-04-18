@@ -13,11 +13,21 @@ let panierImg;
 
 const SESSION_KEY = "gw_session";
 
-const session = JSON.parse(localStorage.getItem(SESSION_KEY));
+let session = null;
+
+try {
+  session = JSON.parse(localStorage.getItem(SESSION_KEY));
+} catch {
+  session = null;
+}
 
 if (!session) {
   window.location.href = "../../auth.html";
+} else {
+bootstrapBananaGame();
 }
+
+function bootstrapBananaGame() {
 
 /* gestion des différents niveaux du jeu demandés 1,2 et 3*/
 const LEVEL_CONFIG ={
@@ -722,4 +732,5 @@ function playPop() {
     const pop = new Audio('./assets/sounds/pop-sound.mp3');
     pop.volume = 0.6;
     pop.play();
+}
 }

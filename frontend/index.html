@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/home.css">
-
   <link rel="icon" type="image/svg+xml" href="assets/logo-gameworld.svg">
   <link rel="apple-touch-icon" href="assets/logo-gameworld.svg">
 </head>
@@ -17,18 +16,17 @@
 
 <header class="nav">
   <div class="container nav-inner">
-    
     <a class="brand" href="index.html">
       <img src="assets/logo-gameworld.svg" alt="World Of Fun" class="brand-logo" />
     </a>
 
-    <nav class="nav-links" aria-label="Main navigation">
+    <nav class="nav-links" aria-label="Navigation principale">
       <a href="dashboard.html">Podium</a>
     </nav>
 
     <div class="nav-cta">
       <a class="btn ghost" data-account-link href="auth.html">Connexion</a>
-      <a class="btn" data-logout-btn href="#" style="display:none;">Déconnexion</a>
+      <a class="btn" data-logout-btn href="#" style="display:none;">D&eacute;connexion</a>
     </div>
   </div>
 </header>
@@ -37,7 +35,7 @@
   <section class="hero container">
     <h1>BIENVENUE DANS<br/>WORLD OF FUN</h1>
     <p class="hero-consigne">
-      Choisis une région, joue au défi et bats toi contre les maîtres de l'univers !
+      Choisis une r&eacute;gion, joue au d&eacute;fi et bats-toi contre les ma&icirc;tres de l'univers !
     </p>
 
     <div class="hero-actions">
@@ -47,37 +45,35 @@
 
     <div class="hero-assistant" aria-hidden="true">
       <img class="hero-robot" src="assets/robot.png" alt="Robot" />
-      <img class="hero-bubble" src="assets/bulle.png" alt="Défile vers le bas pour atterir !"/>
+      <img class="hero-bubble" src="assets/bulle.png" alt="D&eacute;file vers le bas pour atterrir !" />
     </div>
   </section>
 
-  <section class="globe-stage" aria-label="Globe section">
+  <section class="globe-stage" aria-label="Section globe">
     <img class="globe-img" src="assets/globe.png" alt="Globe" />
     <img class="flyer" id="flyer" alt="Objet volant" />
   </section>
 
-  <section class="pins-stage" aria-label="Choose a region">
-   
-   
+  <section class="pins-stage" aria-label="Choisir une r&eacute;gion">
     <div class="pin-wrapper alaska">
-      <button class="pin" type="button" aria-label="Mémoire Arctique — Alaska">
+      <button class="pin" type="button" aria-label="M&eacute;moire Arctique &mdash; Alaska">
         <div class="drop pulsing"></div>
         <div class="pin-label">ALASKA</div>
       </button>
       <div class="pin-card">
         <div class="pin-card-preview">
-          <img src="assets/preview-memoire.png" alt="Mémoire Arctique" />
+          <img src="assets/preview-memoire.png" alt="M&eacute;moire Arctique" />
         </div>
         <div class="pin-card-content">
-          <h3>Mémoire Arctique</h3>
-          <p>Trouve les paires dans la tempête de neige</p>
-          <a href="jeux/memoire/memoire.html" class="pin-btn">Jouer →</a>
+          <h3>M&eacute;moire Arctique</h3>
+          <p>Trouve les paires dans la temp&ecirc;te de neige</p>
+          <a href="auth.html" class="pin-btn" data-game-href="jeux/memoire/memoire.html">Jouer &rarr;</a>
         </div>
       </div>
     </div>
 
     <div class="pin-wrapper amazon">
-      <button class="pin" type="button" aria-label="Chasse Bananes — Amazonie">
+      <button class="pin" type="button" aria-label="Chasse Bananes &mdash; Amazonie">
         <div class="drop pulsing"></div>
         <div class="pin-label">AMAZONIE</div>
       </button>
@@ -88,28 +84,27 @@
         <div class="pin-card-content">
           <h3>Chasse Bananes</h3>
           <p>Attrape les bananes dans la jungle</p>
-          <a href="jeux/chasse-banane/chasse.html" class="pin-btn">Jouer →</a>
+          <a href="auth.html" class="pin-btn" data-game-href="jeux/chasse-banane/chasse.html">Jouer &rarr;</a>
         </div>
       </div>
     </div>
 
     <div class="pin-wrapper sahara">
-      <button class="pin" type="button" aria-label="Snake du Désert — Sahara">
+      <button class="pin" type="button" aria-label="Charming Dunes &mdash; Sahara">
         <div class="drop pulsing"></div>
         <div class="pin-label">SAHARA</div>
       </button>
       <div class="pin-card">
         <div class="pin-card-preview">
-          <img src="assets/preview-snake.png" alt="Snake du Désert" />
+          <img src="assets/preview-snake.png" alt="Charming Dunes" />
         </div>
         <div class="pin-card-content">
           <h3>Charming Dunes</h3>
-          <p>Survie dans les dunes brûlantes</p>
-          <a href="jeux/sandy-snake/snake.html" class="pin-btn">Jouer →</a>
+          <p>Survis dans les dunes br&ucirc;lantes</p>
+          <a href="auth.html" class="pin-btn" data-game-href="jeux/sandy-snake/snake.html">Jouer &rarr;</a>
         </div>
       </div>
     </div>
-
   </section>
 </main>
 

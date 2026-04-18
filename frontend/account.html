@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>World Of Fun — Mon compte</title>
+  <title>World Of Fun &mdash; Mon compte</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +16,6 @@
 
 <header class="nav">
   <div class="container nav-inner">
-    
     <a class="brand" href="index.html">
       <img src="assets/logo-gameworld.svg" alt="GameWorld" class="brand-logo" />
     </a>
@@ -28,7 +27,7 @@
 
     <div class="nav-cta">
       <a class="btn ghost" data-account-link href="auth.html">Connexion</a>
-      <a class="btn" data-logout-btn href="#" style="display:none;">Déconnexion</a>
+      <a class="btn" data-logout-btn href="#" style="display:none;">D&eacute;connexion</a>
     </div>
   </div>
 </header>
@@ -38,7 +37,7 @@
     <h1 class="account-title">Mon compte</h1>
 
     <div class="notice" data-auth-guard style="display:none;">
-      Tu dois être connecté pour accéder à cette page. Redirection vers la page d’auth…
+      Tu dois &ecirc;tre connect&eacute; pour acc&eacute;der &agrave; cette page. Redirection vers la page d&rsquo;auth&hellip;
     </div>
 
     <div class="account-grid">
@@ -48,21 +47,21 @@
         <div class="account-summary">
           <div class="pill">
             <span class="pill-label">Email</span>
-            <span class="pill-value" id="accEmail">—</span>
+            <span class="pill-value" id="accEmail">&mdash;</span>
           </div>
           <div class="pill">
             <span class="pill-label">Total (meilleurs scores)</span>
-            <span class="pill-value" id="accTotal">—</span>
+            <span class="pill-value" id="accTotal">&mdash;</span>
           </div>
         </div>
 
         <div class="score-cards">
           <div class="score-card">
-            <h3>Mémoire Arctique</h3>
-            <div class="score-big" id="bestMemory">—</div>
+            <h3>M&eacute;moire Arctique</h3>
+            <div class="score-big" id="bestMemory">&mdash;</div>
             <div class="table-wrap">
               <table class="table table-compact">
-                <thead><tr><th>Date</th><th>Niveau</th><th>Coups</th><th>Temps</th><th>Score</th></tr></thead>
+                <thead><tr><th>Date</th><th>Progression</th><th>Coups</th><th>Temps</th><th>Score</th></tr></thead>
                 <tbody id="myMemoryRows"></tbody>
               </table>
             </div>
@@ -70,29 +69,30 @@
 
           <div class="score-card">
             <h3>Chasse Amazonienne</h3>
-            <div class="score-big" id="bestTyping">—</div>
+            <div class="score-big" id="bestBanana">&mdash;</div>
             <div class="table-wrap">
               <table class="table table-compact">
                 <thead><tr><th>Date</th><th>Score</th></tr></thead>
-                <tbody id="myTypingRows"></tbody>
+                <tbody id="myBananaRows"></tbody>
               </table>
             </div>
           </div>
 
           <div class="score-card">
-            <h3>Serpent</h3>
-            <div class="score-big" id="bestGeo">—</div>
+            <h3>Charming Dunes</h3>
+            <div class="score-big" id="bestSnake">&mdash;</div>
             <div class="table-wrap">
               <table class="table table-compact">
                 <thead><tr><th>Date</th><th>Score</th></tr></thead>
-                <tbody id="myGeoRows"></tbody>
+                <tbody id="mySnakeRows"></tbody>
               </table>
             </div>
           </div>
         </div>
 
         <div class="notice subtle" style="margin-top:12px; text-align: center;">
-          Le total est calculé en additionnant ton meilleur score dans chaque jeu.
+          Les tableaux affichent tes 5 meilleures tentatives.
+          <br>Le total additionne ton meilleur score dans chaque jeu.
         </div>
       </section>
 
@@ -103,7 +103,7 @@
           <h3 class="account-h3">Changer mon email</h3>
           <label for="newEmail">Nouvel email</label>
           <input id="newEmail" type="email" placeholder="nouveau@gmail.com" required />
-          <button class="btn primary" type="submit">Mettre à jour l’email</button>
+          <button class="btn primary" type="submit">Mettre &agrave; jour l&rsquo;email</button>
           <div class="notice err" id="emailErr" style="display:none;"></div>
           <div class="notice" id="emailOk" style="display:none;"></div>
         </form>
@@ -115,22 +115,22 @@
           <label for="currentPwd">Mot de passe actuel</label>
           <div class="pwd-field">
             <input id="currentPwd" type="password" placeholder="Ton mot de passe actuel" required />
-            <button class="pwd-toggle" type="button" data-target="currentPwd" aria-label="Afficher/masquer">👁</button>
+            <button class="pwd-toggle" type="button" data-target="currentPwd" aria-label="Afficher/masquer">&#128053;</button>
           </div>
 
           <label for="newPwd">Nouveau mot de passe</label>
           <div class="pwd-field">
             <input id="newPwd" type="password" placeholder="Ton nouveau mot de passe" required />
-            <button class="pwd-toggle" type="button" data-target="newPwd" aria-label="Afficher/masquer">👁</button>
+            <button class="pwd-toggle" type="button" data-target="newPwd" aria-label="Afficher/masquer">&#128053;</button>
           </div>
 
           <label for="newPwd2">Confirmer le nouveau mot de passe</label>
           <div class="pwd-field">
             <input id="newPwd2" type="password" placeholder="Confirmation du nouveau mot de passe" required />
-            <button class="pwd-toggle" type="button" data-target="newPwd2" aria-label="Afficher/masquer">👁</button>
+            <button class="pwd-toggle" type="button" data-target="newPwd2" aria-label="Afficher/masquer">&#128053;</button>
           </div>
 
-          <button class="btn primary" type="submit">Mettre à jour le mot de passe</button>
+          <button class="btn primary" type="submit">Mettre &agrave; jour le mot de passe</button>
           <div class="notice err" id="pwdErr" style="display:none;"></div>
           <div class="notice" id="pwdOk" style="display:none;"></div>
         </form>

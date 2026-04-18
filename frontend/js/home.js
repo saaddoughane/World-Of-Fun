@@ -3,8 +3,8 @@
   if (!flyer) return;
 
   const assets = [
-    { src: "assets/avion.png", alt: "Flying plane" },
-    { src: "assets/fusee.png", alt: "Flying rocket" }
+    { src: "assets/avion.png", alt: "Avion en vol" },
+    { src: "assets/fusee.png", alt: "Fus\u00e9e en vol" }
   ];
 
   function rand(min, max) {

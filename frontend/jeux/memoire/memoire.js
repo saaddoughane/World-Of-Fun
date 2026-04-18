@@ -1,4 +1,4 @@
-
+const MEMORY_SESSION_KEY = "gw_session";
 const NIVEAUX = [
 
 
@@ -43,6 +43,9 @@ let coups            = 0;
 let secondes         = 0;
 let timerInterval    = null;
 let peutCliquer      = true;
+let niveauStats      = [];
+let memoryRunSaved   = false;
+let memoryRunCompleted = false;
 
 
 const pageAccueil   = document.getElementById('pageAccueil');
@@ -64,13 +67,21 @@ const musiqueAmbiance = document.getElementById('musiqueAmbiance');
 
 musiqueAmbiance.volume = 0.09; 
 
-(function checkAuth() {
-    const user = JSON.parse(localStorage.getItem("user"));
+let currentUser = null;
 
-    if (!user) {
-        window.location.href = "../../auth.html";
-    }
-})();
+try {
+    currentUser = JSON.parse(localStorage.getItem(MEMORY_SESSION_KEY) || "null");
+} catch {
+    currentUser = null;
+}
+
+if (!currentUser) {
+    window.location.href = "../../auth.html";
+} else {
+    bootstrapMemoryGame();
+}
+
+function bootstrapMemoryGame() {
 
 function demarrerMusique() {
 
@@ -98,7 +109,59 @@ function formaterTemps(s) {
     return `${Math.floor(s/60).toString().padStart(2,'0')}:${(s%60).toString().padStart(2,'0')}`;
 }
 
+function calculerScoreMemoire(niveau, coupsActuels, secondesActuelles) {
+    const bonusNiveau = Number(niveau) * 100;
+    const bonusTemps = Math.max(0, 200 - Number(secondesActuelles));
+    const penalite = Number(coupsActuels) * 5;
+
+    return Math.max(0, Math.min(500, Math.round(bonusNiveau + bonusTemps - penalite)));
+}
+
+function resetMemoryRun() {
+    niveauStats = [];
+    memoryRunSaved = false;
+    memoryRunCompleted = false;
+}
+
+function enregistrerResultatNiveau() {
+    const niveau = NIVEAUX[niveauIndex].id;
+
+    niveauStats[niveauIndex] = {
+        niveau,
+        coups,
+        temps: secondes,
+        score: calculerScoreMemoire(niveau, coups, secondes)
+    };
+}
+
+function construireResumeRun() {
+    const niveauxCompletes = niveauStats.filter(Boolean);
+
+    return {
+        completedLevels: niveauxCompletes.length,
+        niveau: niveauxCompletes.reduce((max, entry) => Math.max(max, Number(entry.niveau || 0)), 0),
+        coups: niveauxCompletes.reduce((sum, entry) => sum + Number(entry.coups || 0), 0),
+        temps: niveauxCompletes.reduce((sum, entry) => sum + Number(entry.temps || 0), 0),
+        score: niveauxCompletes.reduce((sum, entry) => sum + Number(entry.score || 0), 0)
+    };
+}
+
+function saveMemoryRunIfNeeded() {
+    if (memoryRunSaved) return;
+    if (!memoryRunCompleted) return;
+
+    const resume = construireResumeRun();
+    if (resume.completedLevels === 0 || resume.score <= 0) return;
+
+    memoryRunSaved = true;
+
+    if (typeof saveScore === "function") {
+        saveScore("memory", resume.score, resume);
+    }
+}
+
 function afficherAccueil() {
+    saveMemoryRunIfNeeded();
 
 
     pageAccueil.style.display  = 'flex';
@@ -238,6 +301,7 @@ document.getElementById('btnMenuModal').addEventListener('click', () => {
 });
 
 function afficherVictoire() {
+    enregistrerResultatNiveau();
 
     sons.victoire.currentTime = 0;
     sons.victoire.play();
@@ -266,6 +330,7 @@ function afficherVictoire() {
 // Jouer
 document.getElementById('btnJouer').addEventListener('click', () => {
     niveauIndex = 0;
+    resetMemoryRun();
     demarrerMusique();
     initNiveau();
 
@@ -293,6 +358,8 @@ document.getElementById('btnSuivant').addEventListener('click', () => {
         initNiveau();
     } else {
         modalVictoire.classList.remove('active');
+        memoryRunCompleted = true;
+        saveMemoryRunIfNeeded();
         modalFin.classList.add('active');
     }
 });
@@ -315,6 +382,8 @@ document.addEventListener('keydown', e => {
     if (e.code === 'Space' && pageAccueil.style.display !== 'none') {
         e.preventDefault();
         niveauIndex = 0;
+        resetMemoryRun();
+        demarrerMusique();
         initNiveau();
     }
     if (e.code === 'Escape' && pageJeu.style.display !== 'none') {
@@ -334,4 +403,7 @@ for (let i = 0; i < 30; i++) {
     flocon.style.animationDuration = `${6 + Math.random() * 12}s`;
     flocon.style.animationDelay    = `${Math.random() * 10}s`;
     conteneurNeige.appendChild(flocon);
+}
+
+window.addEventListener('beforeunload', saveMemoryRunIfNeeded);
 }

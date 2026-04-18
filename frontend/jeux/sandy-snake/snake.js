@@ -3,7 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const HI_SCORES_KEY = "snakeSaharaHiScores";
   let DEBUG_HITBOX = false;
 
-  const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+  let session = null;
+  try {
+    session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+  } catch {
+    session = null;
+  }
   if (!session) {
     window.location.href = "../../auth.html";
     return;
