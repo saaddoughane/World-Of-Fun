@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const SESSION_KEY = "gw_session";
   const HI_SCORES_KEY = "snakeSaharaHiScores";
+  let DEBUG_HITBOX = false;
 
   const session = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
   if (!session) {
@@ -50,6 +51,12 @@ document.addEventListener("DOMContentLoaded", () => {
     oasis: new Image(),
     relic: new Image()
   };
+  const backgroundMusic = new Audio("./assets/sounds/desert-bg.wav");
+  let hasUnlockedAudio = false;
+
+  backgroundMusic.loop = true;
+  backgroundMusic.volume = 0.09;
+  backgroundMusic.preload = "auto";
 
   Object.entries(ASSET_PATHS).forEach(([key, path]) => {
     assets[key].src = path;
@@ -122,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function createSnake() {
     const startX = canvas.width * 0.28;
     const startY = canvas.height * 0.55;
-    const headRadius = 16;
+    const headRadius = 25;
 
     return {
       x: startX,
@@ -247,6 +254,21 @@ document.addEventListener("DOMContentLoaded", () => {
     resetRun();
   }
 
+  function startBackgroundMusic() {
+    hasUnlockedAudio = true;
+
+    if (!backgroundMusic.paused) return;
+
+    backgroundMusic.play().catch(() => {
+      hasUnlockedAudio = false;
+    });
+  }
+
+  function stopBackgroundMusic() {
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+  }
+
   function damageSnake() {
     if (currentTime < snake.damageCooldownUntil) return;
     if (currentTime < snake.invincibleUntil) return;
@@ -319,22 +341,79 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-    function checkSelfCollision() {
-        const ignoreSegments = snake.spacing * 3;
+  function pointToSegmentDistance(px, py, x1, y1, x2, y2) {
+    const A = px - x1;
+    const B = py - y1;
+    const C = x2 - x1;
+    const D = y2 - y1;
 
-        for (let i = ignoreSegments; i < snake.trail.length; i += snake.spacing) {
-            const part = snake.trail[i];
-            if (!part) continue;
+    const dot = A * C + B * D;
+    const lenSq = C * C + D * D;
 
-            const d = dist(snake.x, snake.y, part.x, part.y);
+    let param = -1;
+    if (lenSq !== 0) param = dot / lenSq;
 
-            if (d < snake.headRadius * 0.8) {
-            saveRunIfNeeded();
-            gameState = GAME.GAME_OVER;
-            return;
-            }
-        }
+    let xx, yy;
+
+    if (param < 0) {
+      xx = x1;
+      yy = y1;
+    } else if (param > 1) {
+      xx = x2;
+      yy = y2;
+    } else {
+      xx = x1 + param * C;
+      yy = y1 + param * D;
     }
+
+    return Math.hypot(px - xx, py - yy);
+  }
+
+  function getSnakeBodyPositions() {
+    const bodyPositions = [];
+    const bodyRadius = snake.headRadius * 0.42;
+
+    for (let i = 1; i <= snake.bodyCount; i++) {
+      const idx = Math.floor(i * snake.spacing * 0.6);
+      const part = snake.trail[idx];
+
+      if (!part) continue;
+
+      bodyPositions.push({
+        x: part.x,
+        y: part.y,
+        radius: bodyRadius
+      });
+    }
+
+    return bodyPositions;
+  }
+
+  function checkSelfCollision() {
+    const bodyPositions = getSnakeBodyPositions();
+    const ignoredBodyParts = 3;
+    const ignoredTailParts = 1;
+    const headCollisionRadius = snake.headRadius * 0.34;
+
+    for (let i = ignoredBodyParts; i < bodyPositions.length - ignoredTailParts; i++) {
+      const part = bodyPositions[i];
+      const d = dist(snake.x, snake.y, part.x, part.y);
+      const collisionRadius = headCollisionRadius + part.radius;
+
+      if (d < collisionRadius) {
+        saveRunIfNeeded();
+        gameState = GAME.GAME_OVER;
+        return;
+      }
+
+      if (DEBUG_HITBOX) {
+        ctx.strokeStyle = "red";
+        ctx.beginPath();
+        ctx.arc(part.x, part.y, part.radius, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+  }
 
   function checkScarabCollision() {
     if (dist(snake.x, snake.y, scarab.x, scarab.y) < snake.headRadius + scarab.radius) {
@@ -637,9 +716,28 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.save();
     ctx.lineCap = "round";
 
+    const bodyPositions = getSnakeBodyPositions();
+
+    function getBodyPartAngle(index) {
+      const part = bodyPositions[index];
+      const tailwardNeighbor = bodyPositions[index + 1];
+
+      if (part && tailwardNeighbor) {
+        return Math.atan2(tailwardNeighbor.y - part.y, tailwardNeighbor.x - part.x);
+      }
+
+      const headwardNeighbor = bodyPositions[index - 1];
+
+      if (part && headwardNeighbor) {
+        return Math.atan2(part.y - headwardNeighbor.y, part.x - headwardNeighbor.x);
+      }
+
+      return snake.angle;
+    }
+
     for (let i = snake.bodyCount; i >= 1; i--) {
-      const idx = Math.floor(i * snake.spacing * 0.6);
-      const part = snake.trail[idx];
+      const partIndex = i - 1;
+      const part = bodyPositions[partIndex];
       if (!part) continue;
 
       const size = snake.headRadius * 2;
@@ -647,11 +745,15 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.save();
       ctx.translate(part.x, part.y);
 
-      if (snake.trail[idx + snake.spacing]) {
-        const next = snake.trail[idx + snake.spacing];
-        const angle = Math.atan2(next.y - part.y, next.x - part.x);
-        ctx.rotate(angle);
+      if (DEBUG_HITBOX) {
+        ctx.strokeStyle = "cyan";
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(0, 0, part.radius, 0, Math.PI * 2);
+        ctx.stroke();
       }
+
+      ctx.rotate(getBodyPartAngle(partIndex));
 
       if (i === snake.bodyCount) {
         if (assets.tail.complete && assets.tail.naturalWidth !== 0) {
@@ -686,8 +788,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.rotate(snake.angle);
 
     if (assets.cobraHead.complete && assets.cobraHead.naturalWidth !== 0) {
-      snake.headRadius = 25;
-
       ctx.scale(-1, 1);
       
       ctx.drawImage(
@@ -704,6 +804,14 @@ document.addEventListener("DOMContentLoaded", () => {
       ctx.beginPath();
       ctx.arc(0, 0, snake.headRadius, 0, Math.PI * 2);
       ctx.fill();
+    }
+
+    if (DEBUG_HITBOX) {
+      ctx.strokeStyle = "lime";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(0, 0, snake.headRadius, 0, Math.PI * 2);
+      ctx.stroke();
     }
 
     if (currentTime < snake.invincibleUntil) {
@@ -896,6 +1004,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function onSpace() {
+    if (!hasUnlockedAudio) startBackgroundMusic();
+
     if (gameState === GAME.MENU) {
       resetRun();
       gameState = GAME.PLAYING;
@@ -936,6 +1046,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function onCanvasClick(e) {
+    if (!hasUnlockedAudio) startBackgroundMusic();
+
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
@@ -1001,6 +1113,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function bindEvents() {
     document.addEventListener("keydown", (e) => {
+      if (!hasUnlockedAudio) startBackgroundMusic();
+
       if (e.code === "Space") {
         e.preventDefault();
         onSpace();
@@ -1011,6 +1125,10 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         onEscape();
         return;
+      }
+
+      if (e.code === "KeyH") {
+        DEBUG_HITBOX = !DEBUG_HITBOX;
       }
 
       updateKeyState(e.code, true);
@@ -1037,6 +1155,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: true });
 
     btnRetour.addEventListener("click", () => {
+      stopBackgroundMusic();
+
       if (gameState === GAME.MENU) {
         window.location.href = "../../index.html";
         return;
@@ -1049,6 +1169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     joystick.addEventListener("touchstart", (e) => {
       const touch = e.touches[0];
       if (!touch) return;
+      if (!hasUnlockedAudio) startBackgroundMusic();
       handleJoystickPointer(touch.clientX, touch.clientY);
     }, { passive: true });
 
@@ -1060,6 +1181,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     joystick.addEventListener("touchend", resetJoystick, { passive: true });
     joystick.addEventListener("touchcancel", resetJoystick, { passive: true });
+    window.addEventListener("beforeunload", stopBackgroundMusic);
   }
 
   loadHiScores();
