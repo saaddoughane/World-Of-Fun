@@ -340,8 +340,8 @@
       const newPwd = String(document.getElementById("newPwd")?.value || "");
       const newPwd2 = String(document.getElementById("newPwd2")?.value || "");
 
-      if (!newPwd || newPwd.length < 4) {
-        return showMsg(pwdOk, pwdErr, "", "Mot de passe trop court (min 4 caract\u00e8res).");
+      if (!newPwd || ( newPwd.length < 6 && newPwd.length > 64)) {
+        return showMsg(pwdOk, pwdErr, "", "Le mot de passe doit contenir entre 6 et 64 caract\u00e8res.");
       }
       if (newPwd !== newPwd2) {
         return showMsg(pwdOk, pwdErr, "", "Les deux mots de passe ne correspondent pas.");
