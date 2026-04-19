@@ -287,6 +287,8 @@ Un jeu de type Snake dans un environnement désertique. Le serpent grandit au fu
 
 **Solution :** Pour rendre la partie plus harmonieuse, j'ai utilisé un système de classes CSS dynamiques appliquées selon le niveau. Le niveau 3 utilise une grille à 5 colonnes au lieu de 4 pour optimiser l'utilisation de l'espace disponible sur l'écran.
 
+--- 
+
 ### Chasse Bananes
 
 #### 1. Chargement asynchrone des ressources
