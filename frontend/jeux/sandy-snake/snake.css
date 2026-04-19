@@ -1,9 +1,11 @@
+/* Reinitialise les marges et le box model du jeu. */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Pose le decor desertique general du jeu. */
 body {
   font-family: 'Changa', sans-serif;
   min-height: 100vh;
@@ -16,6 +18,7 @@ body {
     linear-gradient(180deg, #f4d28b 0%, #e2b96a 55%, #c98d44 100%);
 }
 
+/* Ajoute un voile lumineux sur tout le fond. */
 body::before {
   content: "";
   position: fixed;
@@ -28,6 +31,7 @@ body::before {
   z-index: 0;
 }
 
+/* Centre l'ensemble du contenu du jeu. */
 .jeu-container {
   max-width: 1120px;
   margin: 0 auto;
@@ -36,6 +40,7 @@ body::before {
   z-index: 1;
 }
 
+/* Aligne le titre du jeu et le bouton retour. */
 .titre-zone {
   display: flex;
   justify-content: space-between;
@@ -44,6 +49,7 @@ body::before {
   gap: 1rem;
 }
 
+/* Donne une forte presence au titre principal. */
 .titre-principal {
   font-size: 3.8rem;
   font-weight: 800;
@@ -52,16 +58,19 @@ body::before {
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.16);
 }
 
+/* Colorie chaque mot du titre. */
 .titre-mot {
   display: block;
   color: #6a3d1f;
 }
 
+/* Eclaire le second mot du titre. */
 .titre-mot.dunes {
   color: #ffefba;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.22);
 }
 
+/* Habille le bouton de retour. */
 .bouton-retour {
   padding: 0.8rem 1.8rem;
   background: rgba(255, 244, 214, 0.92);
@@ -76,12 +85,14 @@ body::before {
   backdrop-filter: blur(8px);
 }
 
+/* Souleve legerement le bouton au survol. */
 .bouton-retour:hover {
   transform: translateY(-3px);
   background: rgba(255, 244, 214, 1);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.20);
 }
 
+/* Centre le canvas dans la page. */
 .zone-canvas {
   display: flex;
   justify-content: center;
@@ -89,6 +100,7 @@ body::before {
   position: relative;
 }
 
+/* Cadre la zone de jeu et preserve son ratio visuel. */
 #canvas {
   width: 100%;
   max-width: 960px;
@@ -105,6 +117,7 @@ body::before {
   touch-action: none;
 }
 
+/* Place le joystick tactile au-dessus du decor. */
 .joystick {
   position: absolute;
   left: 18px;
@@ -117,6 +130,7 @@ body::before {
   touch-action: none;
 }
 
+/* Dessine la base du joystick. */
 .joystick-base {
   width: 50%;
   height: 50%;
@@ -127,6 +141,7 @@ body::before {
   position: relative;
 }
 
+/* Dessine le bouton mobile du joystick. */
 .joystick-knob {
   width: 50%;
   height: 50%;
@@ -140,6 +155,7 @@ body::before {
   box-shadow: 0 8px 16px rgba(0,0,0,0.18);
 }
 
+/* Organise les informations utiles sous le canvas. */
 .info-panel {
   display: flex;
   justify-content: space-between;
@@ -155,6 +171,7 @@ body::before {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.14);
 }
 
+/* Structure une carte d'information du gameplay. */
 .info-item {
   flex: 1;
   display: flex;
@@ -169,17 +186,20 @@ body::before {
   transition: all 0.25s ease;
 }
 
+/* Souleve la carte d'information au survol. */
 .info-item:hover {
   transform: translateY(-4px);
   background: rgba(255,255,255,0.36);
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 
+/* Donne une taille stable aux pictogrammes. */
 .info-emoji {
   font-size: 2rem;
   line-height: 1;
 }
 
+/* Formate le texte principal des cartes d'information. */
 .info-item span {
   font-size: 0.88rem;
   color: #5b341a;
@@ -188,6 +208,7 @@ body::before {
   line-height: 1.35;
 }
 
+/* Met en avant la valeur utile de chaque carte. */
 .info-item span strong {
   display: block;
   margin-top: 0.2rem;
@@ -195,6 +216,7 @@ body::before {
   color: #6d3f1f;
 }
 
+/* Affiche les commandes du jeu dans une capsule lisible. */
 .controls {
   text-align: center;
   font-size: 0.95rem;
@@ -212,6 +234,7 @@ body::before {
   margin-right: auto;
 }
 
+/* Encadre les touches mises en avant dans la notice. */
 .controls strong {
   color: #ffe6a8;
   font-weight: 700;
@@ -221,6 +244,7 @@ body::before {
   border: 1px solid rgba(255,230,168,0.24);
 }
 
+/* Habille le pied de page du jeu. */
 .footer-credits {
   text-align: center;
   padding: 1.5rem 1rem 2rem;
@@ -230,15 +254,18 @@ body::before {
   margin-top: 2rem;
 }
 
+/* Formate le texte de credits. */
 .footer-credits p {
   font-size: 0.9rem;
   color: #fff3d7;
 }
 
+/* Remplace le curseur par la flute du jeu. */
 #canvas {
   cursor: url("./assets/flute.png") 16 16, auto;
 }
 
+/* Place le suricate decoratif a cote du canvas. */
 .meerkat {
   position: absolute;
   right: -220px;
@@ -248,6 +275,7 @@ body::before {
   user-select: none;
 }
 
+/* Adapte la mise en page sur les ecrans moyens. */
 @media (max-width: 900px) {
   .titre-principal {
     font-size: 2.7rem;

@@ -1,4 +1,4 @@
-
+/* Cadre le hero principal de la page d'accueil. */
 .hero {
   padding: 46px 0 32px;
   text-align: center;
@@ -9,13 +9,16 @@
   align-items: center;
 }
 
+/* Dimensionne le titre principal du hero. */
 .hero h1 {
   margin: 12px 0 0;
+  /* Le clamp garde un titre lisible du mobile au large ecran. */
   font-size: clamp(36px, 5vw, 64px);
   line-height: 1.05;
   letter-spacing: 0.5px;
 }
 
+/* Regle les paragraphes standards du hero. */
 .hero p {
   margin: 18px auto 22px;
   max-width: 70ch;
@@ -24,6 +27,7 @@
   font-size: 14px;
 }
 
+/* Met en avant la consigne centrale avec un degrade. */
 .hero-consigne {
   font-size: 1.6rem !important;
   font-weight: 700;
@@ -36,6 +40,7 @@
   line-height: 1.6;
 }
 
+/* Aligne les boutons principaux sous le hero. */
 .hero-actions {
   display: flex;
   gap: 12px;
@@ -44,7 +49,7 @@
   margin-top: 8px;
 }
 
-
+/* Place le robot decoratif sur desktop. */
 .hero-assistant {
   position: absolute;
   right: 12px;
@@ -55,6 +60,7 @@
   animation: heroFloat 3.2s ease-in-out infinite;
 }
 
+/* Donne une taille stable au robot. */
 .hero-robot {
   width: 200px;
   height: auto;
@@ -62,6 +68,7 @@
   filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.35));
 }
 
+/* Positionne la bulle d'aide a cote du robot. */
 .hero-bubble {
   position: absolute;
   right: -95px;
@@ -74,20 +81,22 @@
   filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.32));
 }
 
+/* Revele la bulle quand la classe d'etat est activee. */
 .hero-assistant.is-bubble-on .hero-bubble {
   opacity: 1;
   transform: translateX(0) scale(1);
 }
 
+/* Cree la legere oscillation du robot. */
 @keyframes heroFloat {
   0%, 100% { transform: translateY(-50%) translateY(0); }
   50% { transform: translateY(-50%) translateY(-10px); }
 }
 
-
-
+/* Cadre la zone du globe et de l'animation volante. */
 .globe-stage {
   position: relative;
+  /* Le min conserve une scene large sans depasser l'ecran. */
   width: min(1100px, 96vw);
   height: 260px;
   margin: 8px auto 0;
@@ -96,6 +105,7 @@
   transform: translateX(-20px);
 }
 
+/* Dimensionne l'image du globe. */
 .globe-img {
   width: min(980px, 96vw);
   height: auto;
@@ -103,6 +113,7 @@
   pointer-events: none;
 }
 
+/* Prepare le sprite volant pour l'animation JS. */
 .flyer {
   position: absolute;
   top: 72px;
@@ -116,7 +127,7 @@
   will-change: transform, opacity;
 }
 
-
+/* Reserve la zone des points interactifs au-dessus du globe. */
 .pins-stage {
   position: relative;
   width: min(1100px, 96vw);
@@ -124,30 +135,31 @@
   margin: 0 auto;
 }
 
-
-
+/* Sert de point d'ancrage a chaque region. */
 .pin-wrapper {
   position: absolute;
   z-index: 10;
 }
 
+/* Place le repere Alaska sur le globe. */
 .pin-wrapper.alaska {
   left: 29%;
   top: -170px;
 }
 
+/* Place le repere Amazonie sur le globe. */
 .pin-wrapper.amazon {
   left: 39%;
   top: -30px;
 }
 
+/* Place le repere Sahara sur le globe. */
 .pin-wrapper.sahara {
   left: 50%;
   top: -115px;
 }
 
-
-
+/* Stylise le bouton repere de carte. */
 .pin {
   position: relative;
   width: 48px;
@@ -159,22 +171,24 @@
   animation: pin-float 3s ease-in-out infinite;
 }
 
+/* Souleve legerement le repere au survol. */
 .pin:hover {
   transform: translateY(-8px);
 }
 
+/* Rend le focus clavier visible. */
 .pin:focus-visible {
   outline: 3px solid rgba(255, 255, 255, 0.5);
   outline-offset: 5px;
 }
 
+/* Anime le flottement vertical des reperes. */
 @keyframes pin-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
 
-
-
+/* Dessine la goutte du repere. */
 .pin .drop {
   width: 34px;
   height: 34px;
@@ -187,6 +201,7 @@
   animation: pin-pulse-simple 2.5s ease-in-out infinite;
 }
 
+/* Pulse la goutte pour attirer l'oeil. */
 @keyframes pin-pulse-simple {
   0%, 100% {
     transform: rotate(-45deg) scale(1);
@@ -196,6 +211,7 @@
   }
 }
 
+/* Dessine le point central du repere. */
 .pin .drop::after {
   content: "";
   position: absolute;
@@ -209,6 +225,7 @@
   animation: dot-pulse-simple 2.5s ease-in-out infinite;
 }
 
+/* Pulse le coeur du repere en meme temps que la goutte. */
 @keyframes dot-pulse-simple {
   0%, 100% {
     transform: rotate(45deg) scale(1);
@@ -220,8 +237,7 @@
   }
 }
 
-
-
+/* Affiche le libelle de region sous le repere. */
 .pin-label {
   font-size: 0.75rem;
   font-weight: 900;
@@ -243,14 +259,14 @@
   margin-right: auto;
 }
 
+/* Accentue le libelle quand la region est survolee. */
 .pin:hover .pin-label {
   background: linear-gradient(135deg, #ff7a59, #ffb020);
   border-color: #ffb020;
   transform: translateY(-3px);
 }
 
-
-
+/* Contient la carte detaillee d'une region. */
 .pin-card {
   position: absolute;
   left: 50%;
@@ -270,6 +286,7 @@
   z-index: 100;
 }
 
+/* Dessine la petite fleche de la carte. */
 .pin-card::before {
   content: '';
   position: absolute;
@@ -281,6 +298,7 @@
   border-top: 12px solid rgba(255, 255, 255, 0.98);
 }
 
+/* Ouvre la carte au survol du repere. */
 .pin:hover .pin-card,
 .pin-wrapper:hover .pin-card {
   opacity: 1;
@@ -289,7 +307,7 @@
   pointer-events: all;
 }
 
-/* Preview image */
+/* Cadre l'image d'aperçu de la carte. */
 .pin-card-preview {
   width: 100%;
   height: 160px;
@@ -298,6 +316,7 @@
   background: linear-gradient(135deg, #e8f4f8, #d0e8f0);
 }
 
+/* Ajuste l'image d'aperçu dans son cadre. */
 .pin-card-preview img {
   width: 100%;
   height: 100%;
@@ -306,11 +325,13 @@
   transition: transform 0.3s ease;
 }
 
+/* Ajoute un zoom doux sur l'aperçu au survol. */
 .pin-wrapper:hover .pin-card-preview img,
 .pin:hover .pin-card-preview img {
   transform: scale(1.05);
 }
 
+/* Pose un voile de contraste sur l'aperçu. */
 .pin-card-preview::after {
   content: '';
   position: absolute;
@@ -322,11 +343,12 @@
   pointer-events: none;
 }
 
-/* Contenu */
+/* Structure le contenu textuel de la carte. */
 .pin-card-content {
   padding: 16px 20px 20px;
 }
 
+/* Stylise le titre de la carte de region. */
 .pin-card h3 {
   font-size: 1.2rem;
   font-weight: 800;
@@ -334,6 +356,7 @@
   margin: 0 0 8px 0;
 }
 
+/* Regle le texte descriptif de la carte. */
 .pin-card p {
   font-size: 0.9rem;
   color: rgba(11, 34, 48, 0.7);
@@ -341,6 +364,7 @@
   margin: 0 0 15px 0;
 }
 
+/* Transforme le lien d'action en bouton plein format. */
 .pin-btn {
   display: block;
   width: 100%;
@@ -357,12 +381,13 @@
   text-transform: uppercase;
 }
 
+/* Accentue le bouton d'action au survol. */
 .pin-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 122, 89, 0.6);
 }
 
-/* Bordures colorées */
+/* Donne une couleur signature a chaque region. */
 .pin-wrapper.alaska .pin-card {
   border-top: 4px solid #7CA5B8;
 }
@@ -375,8 +400,7 @@
   border-top: 4px solid #E8A87C;
 }
 
-
-
+/* Repositionne le robot sur les tailles intermediaires. */
 @media (max-width: 900px) {
   .hero-assistant {
     position: static;
@@ -386,6 +410,7 @@
     animation: heroFloatMobile 3.2s ease-in-out infinite;
   }
   
+  /* Rejoue l'oscillation du robot en version mobile. */
   @keyframes heroFloatMobile {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
@@ -396,6 +421,7 @@
   }
 }
 
+/* Compacte le globe et les cartes sur tablette. */
 @media (max-width: 820px) {
   .globe-stage {
     height: 210px;

@@ -1,14 +1,17 @@
 const SESSION_KEY = "gw_session";
 
+// Calcule le chemin de base selon la profondeur de la page.
 function basePath() {
   return window.location.pathname.includes("/jeux/") ? "../../" : "";
 }
 
+// Lit l'utilisateur courant depuis le stockage local.
 function getCurrentUser() {
   try { return JSON.parse(localStorage.getItem(SESSION_KEY)); }
   catch { return null; }
 }
 
+// Met a jour les liens de navigation selon la session.
 function setNav() {
   const user = getCurrentUser();
   const accountLink = document.querySelector("[data-account-link]");
@@ -27,6 +30,7 @@ function setNav() {
   }
 }
 
+// Redirige les cartes de jeux vers le bon point d'entree.
 function setGameLinks() {
   const user = getCurrentUser();
   const isLoggedIn = Boolean(user && user.email);
@@ -40,6 +44,7 @@ function setGameLinks() {
   });
 }
 
+// Branche le bouton de deconnexion global.
 function attachLogout() {
   const btn = document.querySelector("[data-logout-btn]");
   if (!btn) return;
@@ -52,10 +57,12 @@ function attachLogout() {
   });
 }
 
+// Gere l'ouverture et la fermeture des cartes de regions.
 function initPins() {
   const pins = Array.from(document.querySelectorAll(".pin"));
   if (pins.length === 0) return;
 
+  // Ferme toutes les cartes sauf celle a conserver ouverte.
   function closeAll(except = null) {
     pins.forEach(p => { if (p !== except) p.classList.remove("is-open"); });
   }
@@ -91,9 +98,11 @@ function initPins() {
 let lastScrollY = window.scrollY;
 let ticking = false;
 
+// Masque la barre quand on descend franchement dans la page.
 function handleScroll() {
   const currentScrollY = window.scrollY;
 
+  // Le seuil evite les clignotements sur les micro-scrolls.
   if (Math.abs(currentScrollY - lastScrollY) < 10) return;
 
   if (!navbar) return;
@@ -119,6 +128,7 @@ window.addEventListener('scroll', () => {
 
 const SCORES_KEY = "gw_scores";
 
+// Analyse un JSON sans casser le reste de l'interface.
 function safeParse(raw, fallback) {
   try {
     const value = JSON.parse(raw);
@@ -128,6 +138,7 @@ function safeParse(raw, fallback) {
   }
 }
 
+// Enregistre un score normalise pour les classements globaux.
 function saveScore(game, score, extra = {}) {
   const session = safeParse(localStorage.getItem("gw_session"), null);
   if (!session || !session.email) return;
@@ -147,6 +158,7 @@ function saveScore(game, score, extra = {}) {
   console.log("Score sauvegardé :", game, score);
 }
 
+// Ajuste le bouton hero selon l'etat de connexion.
 document.addEventListener("DOMContentLoaded", () => {
   const user = getCurrentUser();
   const heroBtn = document.getElementById("heroAccountBtn");

@@ -1,4 +1,5 @@
 :root{
+  /* Centralise la palette et les variables globales. */
   --ocean:#50b7dd;
   --ocean2:#3aa9d2;
   --ink:#0b2230;
@@ -10,9 +11,11 @@
   --pinAccent:#ffb020;
 }
 
+/* Applique un box model uniforme a toute l'interface. */
 *{box-sizing:border-box}
 html,body{height:100%}
 
+/* Pose le fond global du site et la typo commune. */
 body{
   margin:0;
   font-family: 'Bebas Neue', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -25,16 +28,17 @@ body{
   background-attachment: scroll;
 }
 
+/* Defini les regles de base pour les liens et boutons. */
 a{color:inherit;text-decoration:none}
 button{font:inherit}
 
+/* Centre les pages dans une largeur lisible. */
 .container{
   width:min(1100px, 92vw);
   margin:0 auto;
 }
 
-/* ================= NAVBAR ================= */
-
+/* Structure la barre de navigation collante. */
 .nav{
   position:sticky;
   top:0;
@@ -46,11 +50,13 @@ button{font:inherit}
   will-change: transform, opacity;
 }
 
+/* Translate a -100% sort completement la barre du haut. */
 .nav.is-hidden{
   transform: translateY(-100%);
   opacity: 0;
 }
 
+/* Repartit logo, liens et actions sur trois zones. */
 .nav-inner{
   display:grid;
   grid-template-columns: 1fr auto 1fr;
@@ -59,7 +65,7 @@ button{font:inherit}
   gap:14px;
 }
 
-
+/* Habille le bloc marque du site. */
 .brand {
   justify-self: start;
   display: flex;
@@ -71,10 +77,12 @@ button{font:inherit}
   transition: transform 0.3s ease;
 }
 
+/* Anime legerement la marque au survol. */
 .brand:hover {
   transform: scale(1.05);
 }
 
+/* Cadre le logo dans la navigation. */
 .brand-logo {
   width: 80px;
   height: 80px;
@@ -83,10 +91,12 @@ button{font:inherit}
   transition: filter 0.3s ease;
 }
 
+/* Renforce l'effet lumineux du logo au survol. */
 .brand:hover .brand-logo {
   filter: drop-shadow(0 6px 16px rgba(255, 176, 32, 0.6));
 }
 
+/* Formate un texte de marque optionnel. */
 .brand-text {
   font-size: 1.3rem;
   font-weight: 900;
@@ -95,6 +105,7 @@ button{font:inherit}
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+/* Aligne les liens centraux de navigation. */
 .nav-links{
   justify-self:center;
   display:flex;
@@ -111,6 +122,7 @@ button{font:inherit}
   background: rgba(255,255,255,.14);
 }
 
+/* Aligne les actions de droite de la barre. */
 .nav-cta{
   justify-self:end;
   display:flex;
@@ -118,6 +130,7 @@ button{font:inherit}
   align-items:center;
 }
 
+/* Defini la base visuelle commune des boutons. */
 .btn{
   border:none;
   cursor:pointer;
@@ -143,8 +156,7 @@ button{font:inherit}
   border:1px solid rgba(255,255,255,.22);
 }
 
-/* ===== Password toggle global ===== */
-
+/* Positionne le toggle de mot de passe dans le champ. */
 .pwd-field{
   position: relative;
   display: block;

@@ -1,9 +1,9 @@
-/* ================= DASHBOARD / PODIUM ================= */
-
+/* Pose le theme visuel de la page podium. */
 .dashboard-page{
   color:#fff;
 }
 
+/* Regroupe le contenu dans une carte translucide. */
 .dash-shell{
   border-radius: 28px;
   padding: 20px;
@@ -13,13 +13,16 @@
   box-shadow: 0 22px 60px rgba(0,0,0,.28);
 }
 
+/* Dimensionne le titre principal du podium. */
 .dash-title{
   text-align:center;
   margin: 0 0 12px;
   letter-spacing: 1.2px;
+  /* Le clamp garde une hierarchie stable sur toutes les largeurs. */
   font-size: clamp(34px, 4vw, 54px);
 }
 
+/* Organise les cartes du podium en grille. */
 .dash-grid{
   margin-top: 14px;
   display: grid;
@@ -27,6 +30,7 @@
   gap: 14px;
 }
 
+/* Passe a deux colonnes sur les ecrans assez larges. */
 @media (min-width: 900px){
   .dash-grid{
     grid-template-columns: 1fr 1fr;
@@ -36,10 +40,12 @@
   }
 }
 
+/* Ajuste l'espacement interne des cartes. */
 .dash-card{
   padding: 16px 16px 12px;
 }
 
+/* Formate les titres de sections du podium. */
 .dash-h2{
   margin: 0 0 10px;
   text-align:center;
@@ -47,16 +53,18 @@
   font-size: 26px;
 }
 
-/* tables */
+/* Encadre les tableaux avec un scroll horizontal si besoin. */
 .table-wrap{
   width: 100%;
   overflow-x: auto;
   border-radius: 16px;
 }
 
+/* Donne une base commune aux tableaux du podium. */
 .table{
   width: 100%;
   border-collapse: collapse;
+  /* La largeur minimale evite des colonnes trop ecrasees. */
   min-width: 360px;
   background: rgba(10,18,26,.25);
   border: 1px solid rgba(255,255,255,.14);
@@ -64,18 +72,21 @@
   overflow: hidden;
 }
 
+/* Regle l'espacement interne des cellules. */
 .table th, .table td{
   padding: 10px 12px;
   text-align: left;
   color: rgba(255,255,255,.92);
 }
 
+/* Met en valeur l'entete de colonnes. */
 .table thead th{
   background: #ffb12047;
   border-bottom: 1px solid #ffb020;
   letter-spacing: .6px;
 }
 
+/* Trace une separation douce entre les lignes. */
 .table tbody tr{
   border-bottom: 1px solid rgba(255,255,255,.10);
 }
@@ -84,6 +95,7 @@
   border-bottom: none;
 }
 
+/* Souligne la ligne survolee pour la lecture. */
 .table tbody tr:hover{
   background: rgba(255,255,255,.06);
 }

@@ -6,15 +6,18 @@
   const MONKEY_CLOSED = String.fromCodePoint(0x1F435);
   const MONKEY_OPEN = String.fromCodePoint(0x1F648);
 
+  // Lit la liste des comptes en tolerant un stockage invalide.
   function readUsers() {
     try { return JSON.parse(localStorage.getItem(USERS_KEY_LOCAL)) ?? []; }
     catch { return []; }
   }
 
+  // Sauvegarde la liste complete des comptes.
   function writeUsers(users) {
     localStorage.setItem(USERS_KEY_LOCAL, JSON.stringify(users));
   }
 
+  // Cree la session locale de l'utilisateur connecte.
   function setSessionUser(email) {
     localStorage.setItem(
       SESSION_KEY_LOCAL,
@@ -22,27 +25,32 @@
     );
   }
 
+  // Valide le format minimum de l'email.
   function isValidEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim());
   }
 
+  // Valide la longueur minimale et maximale du mot de passe.
   function isValidPassword(password) {
     const length = String(password).length;
     return length >= 6 && length <= 64;
   }
 
+  // Affiche un message dans une zone d'etat.
   function show(element, message) {
     if (!element) return;
     element.style.display = "block";
     element.textContent = message;
   }
 
+  // Masque un message devenu inutile.
   function hide(element) {
     if (!element) return;
     element.style.display = "none";
     element.textContent = "";
   }
 
+  // Produit un hash simple compatible avec le stockage local existant.
   function hash(password) {
     return btoa(password);
   }
@@ -52,12 +60,14 @@
   const panelLogin = document.getElementById("panelLogin");
   const panelRegister = document.getElementById("panelRegister");
 
+  // Affiche le panneau de connexion.
   function openLogin() {
     if (!panelLogin || !panelRegister) return;
     panelLogin.style.display = "block";
     panelRegister.style.display = "none";
   }
 
+  // Affiche le panneau d'inscription.
   function openRegister() {
     if (!panelLogin || !panelRegister) return;
     panelLogin.style.display = "none";
@@ -82,6 +92,7 @@
   const regOk = document.getElementById("regOk");
 
   if (loginForm) {
+    // Verifie les identifiants puis ouvre la session.
     loginForm.addEventListener("submit", (event) => {
       event.preventDefault();
       hide(loginErr);
@@ -117,6 +128,7 @@
   }
 
   if (registerForm) {
+    // Cree un compte puis connecte l'utilisateur dans la foulee.
     registerForm.addEventListener("submit", (event) => {
       event.preventDefault();
       hide(regErr);
@@ -148,6 +160,7 @@
     });
   }
 
+  // Alterne l'affichage des mots de passe avec le meme pictogramme partout.
   document.querySelectorAll(".pwd-toggle").forEach((btn) => {
     btn.textContent = MONKEY_CLOSED;
     btn.addEventListener("click", () => {

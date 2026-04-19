@@ -9,11 +9,13 @@
     snake: ["snake", "geo"]
   };
 
+  // Lit l'utilisateur courant depuis la session locale.
   function getCurrentUser() {
     try { return JSON.parse(localStorage.getItem(SESSION_KEY)); }
     catch { return null; }
   }
 
+  // Analyse un JSON sans interrompre la page compte.
   function safeParse(raw, fallback) {
     try {
       const value = JSON.parse(raw);
@@ -23,6 +25,7 @@
     }
   }
 
+  // Echappe les valeurs affichees dans le HTML.
   function escapeHtml(value) {
     return String(value)
       .replaceAll("&", "&amp;")
@@ -30,10 +33,12 @@
       .replaceAll(">", "&gt;");
   }
 
+  // Reutilise le hash simple du projet pour les mots de passe.
   function hash(password) {
     return btoa(password);
   }
 
+  // Normalise l'email depuis les anciens formats de donnees.
   function normalizeEmail(entry) {
     return String(
       entry?.email ??
@@ -45,6 +50,7 @@
     ).trim();
   }
 
+  // Aligne les anciennes cles de jeux sur les noms actuels.
   function normalizeGameKey(game) {
     const key = String(game || "").trim().toLowerCase();
 
@@ -54,11 +60,13 @@
     return key;
   }
 
+  // Convertit une date ISO en timestamp exploitable.
   function dateMs(iso) {
     const time = new Date(iso || 0).getTime();
     return Number.isNaN(time) ? 0 : time;
   }
 
+  // Formate une date pour l'affichage francais.
   function fmtDate(iso) {
     if (!iso) return "-";
 
@@ -68,11 +76,13 @@
     return date.toLocaleDateString("fr-FR");
   }
 
+  // Lit un score standard quelle que soit sa cle d'origine.
   function genericToPoints(entry) {
     const value = Number(entry?.score ?? entry?.points ?? entry?.value ?? entry?.total ?? 0);
     return Number.isFinite(value) ? value : 0;
   }
 
+  // Reconstitue un score memoire pour les anciennes tentatives.
   function memoryToPoints(entry) {
     const directScore = genericToPoints(entry);
     if (directScore > 0) return directScore;
@@ -81,13 +91,16 @@
     const coups = Number(entry?.coups ?? 0);
     const temps = Number(entry?.temps ?? 999);
 
+    // La formule garde le meme bareme que la sauvegarde memoire recente.
     return Math.max(0, Math.min(500, Math.round((niveau * 100) + Math.max(0, 200 - temps) - (coups * 5))));
   }
 
+  // Choisit la bonne logique de score selon le jeu.
   function scoreForGame(gameKey, entry) {
     return gameKey === "memory" ? memoryToPoints(entry) : genericToPoints(entry);
   }
 
+  // Recupere toutes les tentatives d'un jeu logique.
   function readGameScores(gameKey) {
     const aliases = GAME_ALIASES[gameKey] || [gameKey];
     const allScores = safeParse(localStorage.getItem("gw_scores"), []);
@@ -95,6 +108,7 @@
     return allScores.filter((entry) => aliases.includes(normalizeGameKey(entry?.game)));
   }
 
+  // Trie les tentatives par score puis par date recente.
   function sortAttemptsByScore(entries, gameKey) {
     return [...entries].sort((a, b) => {
       const scoreDiff = scoreForGame(gameKey, b) - scoreForGame(gameKey, a);
@@ -104,6 +118,7 @@
     });
   }
 
+  // Recupere le meilleur score d'un joueur pour un jeu donne.
   function bestScoreForEmail(entries, email, gameKey) {
     const mine = entries.filter((entry) => normalizeEmail(entry) === email);
     if (mine.length === 0) return null;
@@ -111,6 +126,7 @@
     return scoreForGame(gameKey, sortAttemptsByScore(mine, gameKey)[0]);
   }
 
+  // Affiche une ligne vide dans un tableau sans donnees.
   function renderEmptyRow(tbodyId, colspan) {
     const tbody = document.getElementById(tbodyId);
     if (!tbody) return;
@@ -118,6 +134,7 @@
     tbody.innerHTML = `<tr><td colspan="${colspan}">-</td></tr>`;
   }
 
+  // Rend les cinq meilleures tentatives du jeu memoire.
   function renderMemoryRows(entries) {
     const tbody = document.getElementById("myMemoryRows");
     if (!tbody) return;
@@ -144,6 +161,7 @@
     `).join("");
   }
 
+  // Rend les cinq meilleures tentatives d'un jeu standard.
   function renderGenericRows(tbodyId, entries, gameKey) {
     const tbody = document.getElementById(tbodyId);
     if (!tbody) return;
@@ -221,6 +239,7 @@
   const pwdErr = document.getElementById("pwdErr");
   const pwdOk = document.getElementById("pwdOk");
 
+  // Affiche ou masque les messages de retour des formulaires.
   function showMsg(okEl, errEl, okMsg, errMsg) {
     if (okEl) {
       okEl.textContent = okMsg || "";
@@ -234,14 +253,17 @@
     }
   }
 
+  // Lit la liste complete des utilisateurs.
   function readUsers() {
     return safeParse(localStorage.getItem(USERS_KEY), []);
   }
 
+  // Sauvegarde la liste complete des utilisateurs.
   function writeUsers(users) {
     localStorage.setItem(USERS_KEY, JSON.stringify(users));
   }
 
+  // Repercute un changement d'email dans les anciens stockages de scores.
   function updateEmailEverywhere(oldEmail, newEmail) {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
@@ -269,6 +291,7 @@
   }
 
   if (emailForm) {
+    // Met a jour l'email du compte puis recharge la page.
     emailForm.addEventListener("submit", (event) => {
       event.preventDefault();
       showMsg(emailOk, emailErr, "", "");
@@ -308,6 +331,7 @@
   }
 
   if (pwdForm) {
+    // Met a jour le mot de passe si les controles sont valides.
     pwdForm.addEventListener("submit", (event) => {
       event.preventDefault();
       showMsg(pwdOk, pwdErr, "", "");
