@@ -557,7 +557,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ctx.fillStyle = "#fff7e4";
     ctx.font = "600 24px Changa";
-    ctx.fillText("Mange les scarabées, évite les cactus, survie aux 3 niveaux.", canvas.width / 2, 125);
+    ctx.fillText("Mange les scarabées, évite les cactus, survis aux 3 niveaux.", canvas.width / 2, 125);
 
     drawBigCobraPreview();
 
