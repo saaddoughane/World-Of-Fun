@@ -1,12 +1,20 @@
-# 🎮 World Of Fun
-
-**Par :** Saadeddine DOUGHANE & Acile EL DADA
-
-## 📋 Présentation du projet
+# 🎮 World Of Fun - Présentation du projet
 
 On a créé World Of Fun, un site web avec trois jeux interactifs développés en HTML5, CSS3 et JavaScript. L'idée était de faire un tour du monde ludique : chaque jeu se passe dans une région différente (Alaska, Amazonie, Sahara) avec son propre univers visuel et ses spécificités. 
 
 La page d'accueil représente la planète Terre vue depuis l'espace, depuis laquelle nous pouvons naviguer pour accéder aux trois régions du monde comportant nos différents jeux.
+
+## 🌍 Page d'Accueil
+
+![Page d'accueil World Of Fun](./frontend/assets/preview-accueil.png)
+
+La page d'accueil est le point central de navigation de notre projet. Elle présente un globe terrestre interactif avec trois pins positionnés sur les différentes régions du monde :
+
+- **📍 Alaska** : Accès à Mémoire Arctique
+- **📍 Amazonie** : Accès à Chasse Bananes  
+- **📍 Sahara** : Accès à Charming Dunes
+
+--- 
 
 Le projet explore deux approches du développement web :
 
@@ -18,17 +26,19 @@ Le projet explore deux approches du développement web :
 
 **🔗 Site hébergé :**  https://worldoffun.vercel.app/index.html
 
-**📂 Repository GitHub :** https://github.com/saaddoughane/ProjetWEB-L3-S6
+**📂 Repository GitHub :** https://github.com/saaddoughane/World-Of-Fun
 
-**Rapport de Conception** : 
-
+**📃 Rapport de Conception** : [RAPPORT_CONCEPTION.pdf](./RAPPORT_CONCEPTION.pdf)
 
 
 ## 🎥 Vidéos de Démonstration
 
-- **Mémoire Arctique** : lien ytb
-- **Chasse Bananes** :  lien ytb
-- **Snake du Désert** : lien ytb 
+- **Vidéo complète de démo** : https://www.youtube.com/watch?v=yub8oF7P0x4
+- **Démo page d'accueil** : https://www.youtube.com/watch?v=hIHrrkX4-1E
+
+- **Mémoire Arctique** : https://www.youtube.com/watch?v=n4Khp1uuw6s
+- **Chasse Bananes** : https://www.youtube.com/watch?v=lYFzsrVpDlw
+- **Charming Dunes** : https://www.youtube.com/watch?v=6Tx2PTfS9Ko
 
 
 ## 🚀 Installation et Lancement
@@ -40,8 +50,8 @@ Aucune dépendance à installer.
 
 1. **Cloner le repository :**
 ```bash
-git clone https://github.com/saaddoughane/ProjetWEB-L3-S6.git
-cd ProjetWEB-L3-S6
+git clone https://github.com/saaddoughane/World-Of-Fun.git
+cd World-Of-Fun
 ```
 
 2. **Lancer un serveur local :**
@@ -63,7 +73,7 @@ python -m http.server 8000
 ## 📁 Structure du Projet
  
 ```
-ProjetWEB-L3-S6/
+World-Of-Fun
 │
 ├── README.md                          # Ce fichier
 ├── RAPPORT_CONCEPTION.pdf             # Rapport technique (6 pages)
@@ -209,6 +219,9 @@ Un jeu de type Snake dans un environnement désertique. Le serpent grandit au fu
 - Création des favicons spécifiques à chaque jeu
 - Amélioration éléments visuels de la page d'accueil (Cartes de prévisualisation qui s'affichent au survol des pins, animations pins avec noms)
 - Tests et débogage des deux jeux
+
+
+--- 
 
 ### Saadeddine DOUGHANE — 50%
 
